@@ -1,0 +1,9 @@
+test_h7\sfud_sfdp.o: ..\components\SFUD\src\sfud_sfdp.c
+test_h7\sfud_sfdp.o: ..\components\SFUD\inc\sfud.h
+test_h7\sfud_sfdp.o: ..\components\SFUD\inc\sfud_def.h
+test_h7\sfud_sfdp.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
+test_h7\sfud_sfdp.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+test_h7\sfud_sfdp.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+test_h7\sfud_sfdp.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
+test_h7\sfud_sfdp.o: ..\components\SFUD\inc\sfud_cfg.h
+test_h7\sfud_sfdp.o: ..\components\SFUD\inc\sfud_flash_def.h
