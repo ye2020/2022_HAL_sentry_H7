@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H750xx,STM32_THREAD_SAFE_STRATEGY=2</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc; ../Drivers/STM32H7xx_HAL_Driver/Inc; ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy; ../Drivers/CMSIS/Device/ST/STM32H7xx/Include; ../Drivers/CMSIS/Include; ..\components\SFUD\src; ..\components\SFUD\port; ..\components\SFUD\inc; ..\Control\FDCAN_Receive</IncludePath>
+              <IncludePath>../Core/Inc;       ../Drivers/STM32H7xx_HAL_Driver/Inc;       ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;       ../Drivers/CMSIS/Device/ST/STM32H7xx/Include;       ../Drivers/CMSIS/Include;       ..\components\SFUD\src;       ..\components\SFUD\port;       ..\components\SFUD\inc;       ..\Control\FDCAN_Receive</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>

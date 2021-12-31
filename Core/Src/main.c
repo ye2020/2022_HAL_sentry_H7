@@ -178,6 +178,7 @@ int main(void)
   MX_UART4_Init();
   MX_SPI2_Init();
   MX_FDCAN1_Init();
+  MX_FDCAN2_Init();
   /* USER CODE BEGIN 2 */
 //	printf("\r\n 1\r\n");
 		a = DIP_Switch();
@@ -197,6 +198,7 @@ int main(void)
 //}
 
 	fdcan1_config();
+	fdcan2_config();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -211,7 +213,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		Chassis_CAN_Send_Msg(5000,0,0,0);
+		Chassis_CAN_Send_Msg(000,0,0,0);
+		Chassis_CAN2_Send_Msg(000,0,0,0);
   }
   /* USER CODE END 3 */
 }
