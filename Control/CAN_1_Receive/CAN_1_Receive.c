@@ -124,14 +124,14 @@ void CAN1_filter_config(void)
 	* @retval   none
   */
 
-void HAL_CAN_RxFifo0MsgPendingCallback(FDCAN_HandleTypeDef *hcan)
+void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 {
 /*     CAN_RxHeaderTypeDef	Rxmessage;	
  */    
-    if(hcan == &hfdcan1)
-				CAN1_chassis_receive(hcan);
-		if(hcan == &hfdcan2)
-				CAN2_chassis_receive(hcan);
+    if(hfdcan == &hfdcan1)
+				CAN1_chassis_receive(&hfdcan1);
+		if(hfdcan == &hfdcan2)
+				CAN2_chassis_receive(&hfdcan1);
 //			if(CAN1_receive_callback != NULL)
 //					CAN1_receive_callback(hcan)	;               
 		

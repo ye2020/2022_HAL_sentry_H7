@@ -17,6 +17,7 @@
 #include "SysInit.h"
 
 
+int rng = 0;
 
 	 
 void Detect_TASK(void const * argument)
@@ -25,7 +26,7 @@ void Detect_TASK(void const * argument)
 	while(1)
 	{
 
-		
+		rng = RNG_Get_RandomRange(0,10);
 		/* ĞÄÌø¼ì²âÈÎÎñ */
 	vTaskDelay(Detect_CONTROL_TIME);
 

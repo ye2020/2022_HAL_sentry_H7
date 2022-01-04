@@ -50,7 +50,6 @@ const Fire_task_t *get_Fire_control_point(void)
 
 
 
-int rng = 0;
 
 void Fire_Task(void *pvParameters)
 {
@@ -61,7 +60,6 @@ void Fire_Task(void *pvParameters)
 	while(1)
 	{
 		
-		rng = RNG_Get_RandomRange(0,10);
 		/*  心跳任务 */
 		LEDE4(0);
 		/* 允许控制 */

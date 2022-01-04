@@ -49,6 +49,7 @@ static uint8_t Usart1_Tx_Buffer[USART1_TX_LEN] = {0};
 /************************** 声明 ***************************/
 static void sbus_to_rc(volatile const uint8_t *sbus_buf, RC_ctrl_t *rc_ctrl);
 
+static int16_t RC_abs(int16_t value);//取正函数
 
 /**
   * @brief          遥控任务
@@ -57,44 +58,47 @@ static void sbus_to_rc(volatile const uint8_t *sbus_buf, RC_ctrl_t *rc_ctrl);
   */
 void Remote_Task(void const * argument)
 {
+
 		vTaskDelay(5);
 		uint8_t remote_ReadBuff[128];
 
 	while(1)
 	{
+		taskENTER_CRITICAL(); //进入临界区
+
 		LEDE5(0);																	//指示灯
 		
 		fifo_read_buff(pfifo_remote,remote_ReadBuff,32);
 		sbus_to_rc(remote_ReadBuff,&rc_ctrl);
 		
+		 taskEXIT_CRITICAL(); //退出临界区
+
 		vTaskDelay(2);
 	}
 
 	
 }
 
-//取正函数
-static int16_t RC_abs(int16_t value);
-/**
-  * @brief          remote control protocol resolution
-  * @param[in]      sbus_buf: raw data point
-  * @param[out]     rc_ctrl: remote control data struct point
-  * @retval         none
-  */
-/**
-  * @brief          遥控器协议解析
-  * @param[in]      sbus_buf: 原生数据指针
-  * @param[out]     rc_ctrl: 遥控器数据指
-  * @retval         none
-  */
-void sbus_to_rc(volatile const uint8_t *sbus_buf, RC_ctrl_t *rc_ctrl);
-
 
 /**
-  * @brief          remote control init
-  * @param[in]      none
-  * @retval         none
-  */
+  * @brief      遥控器数据死区限制
+  * @param[in]  input
+  * @param[in]  dealine
+  * @retval     
+*/
+int16_t rc_deadline_limit(int16_t input, int16_t dealine)
+{
+    if (input > dealine || input < -dealine)
+    {
+        return input;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+
 /**
   * @brief          遥控器初始化
   * @param[in]      none
@@ -236,6 +240,14 @@ static void sbus_to_rc(volatile const uint8_t *sbus_buf, RC_ctrl_t *rc_ctrl)
     rc_ctrl->rc.ch[2] -= RC_CH_VALUE_OFFSET;
     rc_ctrl->rc.ch[3] -= RC_CH_VALUE_OFFSET;
     rc_ctrl->rc.ch[4] -= RC_CH_VALUE_OFFSET;
+		
+		rc_ctrl->rc.ch[0] = rc_deadline_limit(rc_ctrl->rc.ch[0], 5); //死区限制
+    rc_ctrl->rc.ch[1] = rc_deadline_limit(rc_ctrl->rc.ch[1], 5); //死区限制
+    rc_ctrl->rc.ch[2] = rc_deadline_limit(rc_ctrl->rc.ch[2], 5); //死区限制
+    rc_ctrl->rc.ch[3] = rc_deadline_limit(rc_ctrl->rc.ch[3], 5); //死区限制
+		
+		
+
 }
 
 /**

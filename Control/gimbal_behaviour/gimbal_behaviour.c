@@ -23,12 +23,12 @@ gimbal_behaviour_e gimbal_remote_control_Table[3][3] =
 
 
 
-static float Gimbal_ch2 = 0.0f, Gimbal_ch3 = 0.0f;          // 云台电机受控量 ( ch2为ywa轴控制量，ch3为pitch轴)
+ float Gimbal_ch2 = 0.0f, Gimbal_ch3 = 0.0f;          // 云台电机受控量 ( ch2为ywa轴控制量，ch3为pitch轴)
 static Shoot_WorkStatus_e Friction_wheel_mode = STOP_SHOOT; // 火控射速控制量
 static Fire_WorkStatus_e Fire_mode = STOP_FIRE;             // 火控开火模式控制量
 
 static uint16_t vision_status_count = 0;                    // 敌人消失计数
-
+static uint16_t STANDBY_error_count = 0;										// 遥控通道ch[2],归零时会出现拨杆开关短暂错误
 
 
 /**************** 函数声明 *******************/ 
@@ -62,8 +62,13 @@ void Gimbal_behaviour_mode_set(gimbal_control_t *fir_gimbal_behaviour_f)
       /*  初始化 */
       case GIMBAL_STANDBY:
       {
-        Remote_reload();                                           //摇杆量清零
-        Gimbal_Stop(fir_gimbal_behaviour_f);                       //停止
+				if((rc_sw1_lift != 1 && rc_sw2_right != 1) || STANDBY_error_count >= 5)   // 遥控通道ch[2],归零时会出现拨杆开关短暂错误，导致s1，s2会突然变成2
+				{																																					// 未查明原因，此处为一个治标不治本的补丁
+					Gimbal_Stop(fir_gimbal_behaviour_f);                       //停止
+					Remote_reload();                                           //摇杆量清零
+				}
+				else STANDBY_error_count++;
+				
         break;
       }
       /* 自瞄模式 */
@@ -117,7 +122,9 @@ void Gimbal_behaviour_mode_set(gimbal_control_t *fir_gimbal_behaviour_f)
     default:
       break;
     }
-
+		
+		if(fir_gimbal_behaviour_f->gimbal_behaviour != GIMBAL_STANDBY)
+			STANDBY_error_count = 0;
 }
 
 
@@ -167,8 +174,8 @@ void Gimbal_Stop(gimbal_control_t *gimbal_stop_f)
 	  Friction_wheel_mode = STOP_SHOOT;  
     Fire_mode           = STOP_FIRE;
 
-    Gimbal_ch3 = 0.0f;
-    Gimbal_ch2 = 0.0f;
+//    Gimbal_ch3 = 0.0f;
+//    Gimbal_ch2 = 0.0f;
 
 }
 
@@ -281,8 +288,10 @@ float Auto_Pitch_Angle_Target = 0.0f;                   // pitch轴控制量
   * @retval         none
   * @attention
   */
+float avea = 0;
 static void Gimbal_RemoteControl(gimbal_control_t *gimbal_remotecontrol_f)
-{
+{	
+	avea = (gimbal_remotecontrol_f->gimbal_RC->rc.ch[2]) * RC_YAW_SPEED * 0.2f;
     Gimbal_ch2 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[2]) * RC_YAW_SPEED * 0.2f;     //Y轴位置环量累加   RC_YAW_SPEED
     Gimbal_ch2 = loop_fp32_constrain(Gimbal_ch2, -180.0f, 180.0f);                         //循环限幅，yaw角度限制     -180~180
     Gimbal_ch3 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[3]) * RC_PITCH_SPEED * 0.09f;  //P轴位置环量累加  RC_PITCH_SPEED
