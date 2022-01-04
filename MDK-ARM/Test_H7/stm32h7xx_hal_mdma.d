@@ -32,7 +32,10 @@ test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_
 test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_i2c_ex.h
 test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr.h
 test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h
+test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rng.h
 test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi.h
 test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h
+test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h
+test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
 test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
 test_h7\stm32h7xx_hal_mdma.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h

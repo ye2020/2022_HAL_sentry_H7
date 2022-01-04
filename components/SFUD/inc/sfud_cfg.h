@@ -51,11 +51,9 @@ enum {
 #define SFUD_FLASH_DEVICE_TABLE                                                \
 {                                                                              \
     [SFUD_W25Q32JVSSIQ_DEVICE_INDEX] = {.name = "W25Q32BV", \
-																				.spi.name = "SPI1",	}}
-	
-																			//	.chip = {"W25Q32BV", SFUD_MF_ID_WINBOND, 0x40, 0x16, 4L*1024L*1024L, SFUD_WM_PAGE_256B, 4096, 0x20}},   \
-}
-
+																				.spi.name = "SPI1",	\
+																				.chip = {"W25Q32BV", SFUD_MF_ID_WINBOND, 0x40, 0x16, 4L*1024L*1024L, SFUD_WM_PAGE_256B, 4096, 0x20}}   \
+}													
 //#define SFUD_USING_QSPI  //使能QSPI通讯模式
 
 #endif /* _SFUD_CFG_H_ */

@@ -433,7 +433,7 @@ void sfud_log_info(const char *format, ...)
     printf("%s\r\n", log_buf);
     va_end(args);
 }
-
+#if 1
 ///**
 // * SFUD演示的第一个闪存设备测试。
 // *
@@ -441,105 +441,103 @@ void sfud_log_info(const char *format, ...)
 // * @param  size: 测试flash大小
 // * @param  *data: 测试flash数据缓冲区
 // */
-//#define SFUD_DEMO_TEST_BUFFER_SIZE 1024
-////static uint8_t sfud_demo_test_buf[SFUD_DEMO_TEST_BUFFER_SIZE];  //sfud测试缓冲区
-////sfud_demo(0, sizeof(sfud_demo_test_buf), sfud_demo_test_buf);
-//int sfud_demo(uint32_t addr) //输入 - 0
-//{
-//    uint8_t sfud_demo_test_buf[SFUD_DEMO_TEST_BUFFER_SIZE]; //sfud测试缓冲区
-//    size_t size = sizeof(sfud_demo_test_buf);
-//    uint8_t *data = sfud_demo_test_buf;
+int sfud_demo(uint32_t addr, size_t size, uint8_t *data) //输入 - 0
+{
+    sfud_err result = SFUD_SUCCESS;
+    extern sfud_flash *sfud_dev;
+    const sfud_flash *flash =sfud_get_device(SFUD_W25Q32JVSSIQ_DEVICE_INDEX);// &sfud_norflash0;
 
-//    sfud_err result = SFUD_SUCCESS;
-//    /* sfud_get_device_table()
-//	 * 获取 Flash 设备对象在 SFUD 配置文件中会定义 Flash 设备表，
-//	 * 负责存放所有将要使用的 Flash 设备对象，
-//	 * 所以 SFUD 支持多个 Flash 设备同时驱动。
-//	 * 本方法通过 Flash 设备位于设备表中索引值来返回 Flash 设备对象，
-//	 * 超出设备表范围返回 NULL 。
-//	 */
+    /* sfud_get_device_table()
+	 * 获取 Flash 设备对象在 SFUD 配置文件中会定义 Flash 设备表，
+	 * 负责存放所有将要使用的 Flash 设备对象，
+	 * 所以 SFUD 支持多个 Flash 设备同时驱动。
+	 * 本方法通过 Flash 设备位于设备表中索引值来返回 Flash 设备对象，
+	 * 超出设备表范围返回 NULL 。
+	 */
 //    const sfud_flash *flash = sfud_get_device_table() + 0;
-//    size_t i;
+    size_t i;
 
-//    /* 准备写数据 */
-//    for (i = 0; i < size; i++)
-//    {
-//        data[i] = i;
-//    }
+    /* 准备写数据 */
+    for (i = 0; i < size; i++)
+    {
+        data[i] = i;
+    }
 
-//    /* 删除测试  ： 擦除闪存数据*/
-//    result = sfud_erase(flash, addr, size);
-//    if (result == SFUD_SUCCESS)
-//    {
-//        //printf("Erase the %s flash data finish. Start from 0x%08X, size is %d.\r\n", flash->name, addr, size);
-//        printf("擦除%s闪存数据完成。 从0x%08X开始，大小为%d。\r\n", flash->name, addr, size);
-//    }
-//    else
-//    {
-//        //printf("Erase the %s flash data failed.\r\n", flash->name);
-//        printf("擦除%s闪存数据失败。\r\n", flash->name);
-//        return 0;
-//    }
+    /* 删除测试  ： 擦除闪存数据*/
+    result = sfud_erase(flash, addr, size);
+    if (result == SFUD_SUCCESS)
+    {
+        //printf("Erase the %s flash data finish. Start from 0x%08X, size is %d.\r\n", flash->name, addr, size);
+        printf("擦除%s闪存数据完成。 从0x%08X开始，大小为%d。\r\n", flash->name, addr, size);
+    }
+    else
+    {
+        //printf("Erase the %s flash data failed.\r\n", flash->name);
+        printf("擦除%s闪存数据失败。\r\n", flash->name);
+        return 0;
+    }
 
-//    /* 写测试 */
-//    result = sfud_write(flash, addr, size, data);
-//    if (result == SFUD_SUCCESS)
-//    {
-//        //printf("Write the %s flash data finish. Start from 0x%08X, size is %d.\r\n", flash->name, addr, size);
-//        printf("写入%s flash数据完成。从0x%08X开始，大小为%d。\r\n", flash->name, addr, size);
-//    }
-//    else
-//    {
-//        //printf("Write the %s flash data failed.\r\n", flash->name);
-//        printf("写入%s flash数据失败。\r\n", flash->name);
-//        return 0;
-//    }
+    /* 写测试 */
+    result = sfud_write(flash, addr, size, data);
+    if (result == SFUD_SUCCESS)
+    {
+        //printf("Write the %s flash data finish. Start from 0x%08X, size is %d.\r\n", flash->name, addr, size);
+        printf("写入%s flash数据完成。从0x%08X开始，大小为%d。\r\n", flash->name, addr, size);
+    }
+    else
+    {
+        //printf("Write the %s flash data failed.\r\n", flash->name);
+        printf("写入%s flash数据失败。\r\n", flash->name);
+        return 0;
+    }
 
-//    /* 读测试 */
-//    result = sfud_read(flash, addr, size, data);
-//    if (result == SFUD_SUCCESS)
-//    {
-//        //printf("Read the %s flash data success. Start from 0x%08X, size is %d. The data is:\r\n", flash->name, addr, size);
-//        //printf("Offset (h) 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\r\n");
-//        printf("读取%s flash data成功。从0x%08X开始，大小为%d。的数据是:\r\n", flash->name, addr, size);
-//        printf("偏移量(h) 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\r\n");
-//        for (i = 0; i < size; i++)
-//        {
-//            if (i % 16 == 0)
-//            {
-//                printf("[%08X] ", addr + i);
-//            }
-//            printf("%02X ", data[i]);
-//            if (((i + 1) % 16 == 0) || i == size - 1)
-//            {
-//                printf("\r\n");
-//            }
-//        }
-//        printf("\r\n");
-//    }
-//    else
-//    {
-//        //printf("Read the %s flash data failed.\r\n", flash->name);
-//        printf("读取%s闪存数据失败。\r\n", flash->name);
-//    }
+    /* 读测试 */
+    result = sfud_read(flash, addr, size, data);
+    if (result == SFUD_SUCCESS)
+    {
+        //printf("Read the %s flash data success. Start from 0x%08X, size is %d. The data is:\r\n", flash->name, addr, size);
+        //printf("Offset (h) 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\r\n");
+        printf("读取%s flash data成功。从0x%08X开始，大小为%d。的数据是:\r\n", flash->name, addr, size);
+        printf("偏移量(h) 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\r\n");
+        for (i = 0; i < size; i++)
+        {
+            if (i % 16 == 0)
+            {
+                printf("[%08X] ", addr + i);
+            }
+            printf("%02X ", data[i]);
+            if (((i + 1) % 16 == 0) || i == size - 1)
+            {
+                printf("\r\n");
+            }
+        }
+        printf("\r\n");
+    }
+    else
+    {
+        //printf("Read the %s flash data failed.\r\n", flash->name);
+        printf("读取%s闪存数据失败。\r\n", flash->name);
+    }
 
-//    /* 数据检查 */
-//    for (i = 0; i < size; i++)
-//    {
-//        if (data[i] != i % 256)
-//        {
-//            //printf("Read and check write data has an error. Write the %s flash data failed.\r\n", flash->name);
-//            printf("读取和检查写入数据错误。写入%s flash数据失败。\r\n", flash->name);
-//            break;
-//        }
-//    }
-//    if (i == size)
-//    {
-//        //printf("The %s flash test is success.\r\n", flash->name);
-//        printf("%s flash测试成功。\r\n", flash->name);
-//    }
+    /* 数据检查 */
+    for (i = 0; i < size; i++)
+    {
+        if (data[i] != i % 256)
+        {
+            //printf("Read and check write data has an error. Write the %s flash data failed.\r\n", flash->name);
+            printf("读取和检查写入数据错误。写入%s flash数据失败。\r\n", flash->name);
+            break;
+        }
+    }
+    if (i == size)
+    {
+        //printf("The %s flash test is success.\r\n", flash->name);
+        printf("%s flash测试成功。\r\n", flash->name);
+    }
 
-//    return 0;
-//}
+    return 0;
+}
+#endif
+
 ////!这里用了shell
 ////SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0) | SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC), sfud_demo, sfud_demo, sfud_demo); //导出到命令列表里
