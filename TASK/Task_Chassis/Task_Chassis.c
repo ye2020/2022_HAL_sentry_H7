@@ -149,10 +149,10 @@ static void chassis_init(chassis_control_t *chassis_move_init_f)
     // 真正用到的就motor[0], 这里还是初始化四个电机，包括后面调用和数据更新还是会四个电机一起，防止可能之后底盘电机数量增加。（ps:就是懒而已   _(:з」∠)_   ）
     {
         //底盘移动pid
-        pid_init(&chassis_move_init_f->chassis_speed_pid[0], CHASSIS_MOTOR_PID_Kp, CHASSIS_MOTOR_PID_Ki, CHASSIS_MOTOR_PID_Ki, 0, 0);
-        pid_init(&chassis_move_init_f->chassis_speed_pid[1], CHASSIS_MOTOR_PID_Kp, CHASSIS_MOTOR_PID_Ki, CHASSIS_MOTOR_PID_Ki, 0, 0);
-        pid_init(&chassis_move_init_f->chassis_speed_pid[2], CHASSIS_MOTOR_PID_Kp, CHASSIS_MOTOR_PID_Ki, CHASSIS_MOTOR_PID_Ki, 0, 0);
-        pid_init(&chassis_move_init_f->chassis_speed_pid[3], CHASSIS_MOTOR_PID_Kp, CHASSIS_MOTOR_PID_Ki, CHASSIS_MOTOR_PID_Ki, 0, 0);
+        pid_init(&chassis_move_init_f->chassis_speed_pid[0], CHASSIS_MOTOR_PID_Kp, CHASSIS_MOTOR_PID_Ki, CHASSIS_MOTOR_PID_Kd, 0, 0);
+        pid_init(&chassis_move_init_f->chassis_speed_pid[1], CHASSIS_MOTOR_PID_Kp, CHASSIS_MOTOR_PID_Ki, CHASSIS_MOTOR_PID_Kd, 0, 0);
+        pid_init(&chassis_move_init_f->chassis_speed_pid[2], CHASSIS_MOTOR_PID_Kp, CHASSIS_MOTOR_PID_Ki, CHASSIS_MOTOR_PID_Kd, 0, 0);
+        pid_init(&chassis_move_init_f->chassis_speed_pid[3], CHASSIS_MOTOR_PID_Kp, CHASSIS_MOTOR_PID_Ki, CHASSIS_MOTOR_PID_Kd, 0, 0);
 
         //
         pid_init(&chassis_move_init_f->chassis_location_pid, CHASSIS_LOCATION_PID_P, CHASSIS_LOCATION_PID_I, CHASSIS_LOCATION_PID_D, 0, 0);
@@ -273,6 +273,8 @@ static void chassis_pid_calc(chassis_control_t *chassis_pid_f)
    chassis_pid_f->chassis_motor[2].output = Rmmotor_Speed_control(&(chassis_pid_f->chassis_speed_pid[2]), chassis_pid_f->chassis_motor[2].speed_set, chassis_pid_f->chassis_motor[2].speed, M3508_MAX_OUTPUT_CURRENT);
    chassis_pid_f->chassis_motor[3].output = Rmmotor_Speed_control(&(chassis_pid_f->chassis_speed_pid[3]), chassis_pid_f->chassis_motor[3].speed_set, chassis_pid_f->chassis_motor[3].speed, M3508_MAX_OUTPUT_CURRENT);
 
+
+
 }
 
 
@@ -295,14 +297,16 @@ static void chassis_pid_calc(chassis_control_t *chassis_pid_f)
 
         /*底盘遥控模式*/
     if (chassis_set_f->chassis_mode == CHASSIS_REMOTECONTROL)
-    {
+    {			
         chassis_set_f->speed_x_set =5.0f * ch0;
         chassis_set_f->chassis_motor[0].speed_set = chassis_set_f->speed_x_set;
     }
         /* 待机模式 */
     if (chassis_set_f->chassis_mode == CHASSIS_STANDBY)
     {
+
         chassis_set_f->speed_x_set = 0.0f * ch0;
+			
         chassis_set_f->chassis_motor[0].speed_set = chassis_set_f->speed_x_set;
     }
         /*底盘自动模式*/

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [Test_H7\Test_H7.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Test_H7\Test_H7.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Jan 05 02:17:52 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Jan 05 22:16:11 2022
 <BR><P>
 <H3>Maximum Stack Usage =        376 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -859,10 +859,11 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_AddMessageToTxFifoQ
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GIMBAL_TASK
+<BR>[Called By]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gimbal_pitch_init
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GIMBAL_TASK
 </UL>
 
-<P><STRONG><a name="[cf]"></a>CAN1_chassis_receive</STRONG> (Thumb, 412 bytes, Stack size 56 bytes, can_1_receive.o(i.CAN1_chassis_receive))
+<P><STRONG><a name="[cf]"></a>CAN1_chassis_receive</STRONG> (Thumb, 334 bytes, Stack size 56 bytes, can_1_receive.o(i.CAN1_chassis_receive))
 <BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = CAN1_chassis_receive &rArr; HAL_FDCAN_GetRxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_GetRxMessage
@@ -1901,7 +1902,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[17b]"></a>MX_GPIO_Init</STRONG> (Thumb, 298 bytes, Stack size 32 bytes, gpio.o(i.MX_GPIO_Init))
+<P><STRONG><a name="[17b]"></a>MX_GPIO_Init</STRONG> (Thumb, 300 bytes, Stack size 32 bytes, gpio.o(i.MX_GPIO_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = MX_GPIO_Init &rArr; HAL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -2346,7 +2347,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[196]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_init
 </UL>
 
-<P><STRONG><a name="[1a6]"></a>chassis_behaviour_mode_set</STRONG> (Thumb, 176 bytes, Stack size 16 bytes, chassis_behaviour.o(i.chassis_behaviour_mode_set))
+<P><STRONG><a name="[1a6]"></a>chassis_behaviour_mode_set</STRONG> (Thumb, 234 bytes, Stack size 16 bytes, chassis_behaviour.o(i.chassis_behaviour_mode_set))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = chassis_behaviour_mode_set &rArr; chassis_set_remote &rArr; Chassis_accelerated_Control
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_set_remote
@@ -2639,6 +2640,7 @@ Global Symbols
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Led_Task
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fire_Task
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Detect_TASK
+<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gimbal_pitch_init
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_Task
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GIMBAL_TASK
 </UL>
@@ -3138,8 +3140,13 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GIMBAL_TASK
 </UL>
 
-<P><STRONG><a name="[fa]"></a>gimbal_pitch_init</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, task_gimbal.o(i.gimbal_pitch_init))
-<BR><BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GIMBAL_TASK
+<P><STRONG><a name="[fa]"></a>gimbal_pitch_init</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, task_gimbal.o(i.gimbal_pitch_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = gimbal_pitch_init &rArr; CAN1_Gimbal_Fire &rArr; HAL_FDCAN_AddMessageToTxFifoQ &rArr; FDCAN_CopyMessageToRAM
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_Gimbal_Fire
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GIMBAL_TASK
 </UL>
 
 <P><STRONG><a name="[113]"></a>gimbal_task_off</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, task_gimbal.o(i.gimbal_task_off))
@@ -3235,7 +3242,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[196]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_init
 </UL>
 
-<P><STRONG><a name="[196]"></a>task_init</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, sysinit.o(i.task_init))
+<P><STRONG><a name="[196]"></a>task_init</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, sysinit.o(i.task_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = task_init &rArr; gimbal_app_init &rArr; osThreadCreate &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gimbal_app_init

@@ -70,10 +70,9 @@
 #define CHASSIS_APP 0     // 拨码开关全上 （即译码为0）
 #define GIMBAL_APP  15    // 拨码开关全下 （即译码为15）            
 
-
 /***************************** 各限制选择 *************************************/
 
-#define pitch_angle_position  1   // p轴使用编码器    		0 -> 不使用  1 -> 使用
+#define pitch_angle_position  0   // p轴使用编码器    		0 -> 不使用  1 -> 使用
 #define chassis_using		      1   // 底盘运动         		0 -> 不使用  1 -> 使用
 #define hot_limit             0   // 热量限制         		0 -> 不使用  1 -> 使用
 #define yaw_angle_limit       0		// yaw 轴角度限制				0 -> 不限制  1 -> 限制
@@ -103,7 +102,7 @@
 #define PITCH_GR			 (1.5)					//pitch传动比
  
 /* 底盘电机移动速度设定 */ 
-#define M3508_MAX_OUTPUT_CURRENT  5000   //m3508电机最大电流输出  
+#define M3508_MAX_OUTPUT_CURRENT  10000   //m3508电机最大电流输出  
 #define M2006_MAX_OUTPUT_CURRENT  9500   //m2006电机最大电流输出
 
 #define MAX_MOTOR_CAN_INPUT    2000.0f   //3508最大电流输入

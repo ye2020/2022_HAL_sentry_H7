@@ -22,7 +22,8 @@ static uint8_t Get_Laser_Forward(void);
 
 /****************** 变量 *********************/
 
-static float Chassis_ch0 = 0.0f, Chassis_ch1 = 0.0f, Chassis_ch2 = 0.0f; //底盘电机受控量(ch0用于遥控模式的控制量，ch2用于自动模式的控制量)
+ float Chassis_ch0 = 0.0f, Chassis_ch1 = 0.0f, Chassis_ch2 = 0.0f; //底盘电机受控量(ch0用于遥控模式的控制量，ch2用于自动模式的控制量)
+static uint16_t STANDBY_chassis_error_count = 0;										// 遥控通道ch[2],归零时会出现拨杆开关短暂错误
 
 
  //底盘遥控选择状态表
@@ -62,8 +63,12 @@ void chassis_behaviour_mode_set(chassis_control_t *chassis_behaviour_f)
 			/* 之前为待机状态 */
       case CHASSIS_STANDBY:
       {
+				if((rc_sw1_lift != 1 && rc_sw2_right != 1) || STANDBY_chassis_error_count >= 5)   // 遥控通道ch[2],归零时会出现拨杆开关短暂错误，导致s1，s2会突然变成2
+				{			
          chassis_behaviour_f -> chassis_mode = CHASSIS_INITIALIZE;  //状态设置为初始化
-         Remote_reload();                                           //摇杆量清零
+         Remote_reload(); 
+				}
+				else STANDBY_chassis_error_count++;												//摇杆量清零
          break;                                           
       }
 			/*  自动模式 */
@@ -92,8 +97,14 @@ void chassis_behaviour_mode_set(chassis_control_t *chassis_behaviour_f)
 			}
     }
 
+			
     // 传入值处理
-    chassis_set_remote(chassis_behaviour_f,Chassis_ch0,Chassis_ch1, Chassis_ch2);
+		if((rc_sw1_lift != 1 && rc_sw2_right != 1) || STANDBY_chassis_error_count >= 5)
+		{
+			chassis_set_remote(chassis_behaviour_f,Chassis_ch0,Chassis_ch1, Chassis_ch2);
+		}
+		if(chassis_behaviour_f->chassis_mode != CHASSIS_STANDBY)
+		STANDBY_chassis_error_count = 0;
 
 } 
 
@@ -124,7 +135,7 @@ static void Chassis_Stop(chassis_control_t *Chassis_Stop_f)
   */
 static void Chassis_Auto(chassis_control_t *Chassis_Auto_f)
 {
-    Chassis_ch2 = CHASSIS_AUTO_SPPED;
+    Chassis_ch2 = -CHASSIS_AUTO_SPPED;
 
 }
 

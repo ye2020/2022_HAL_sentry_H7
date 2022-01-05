@@ -27,7 +27,7 @@ static uint8_t sfud_demo_test_buf[SFUD_DEMO_TEST_BUFFER_SIZE];
 /************ 声明 **************/
 
 static  uint16_t  DIP_Switch(void);					// 拨码开关解码
-static void task_init(void);								// 底盘云台选择初始化
+static uint8_t task_init(void);							// 底盘云台选择初始化
 
 extern int sfud_demo(uint32_t addr, size_t size, uint8_t *data); // flash测试Demo
 
@@ -99,7 +99,7 @@ static  uint16_t  DIP_Switch(void)
   * @attention  
   */
 uint8_t app = 0;
-void task_init(void)
+static uint8_t task_init(void)
 {
 
 	app = DIP_Switch();
@@ -108,15 +108,20 @@ void task_init(void)
 	{
 		/*  底盘初始化 */
 		chassis_app_init();
+		return 1;
 	}
 	
 	else if (app == GIMBAL_APP)
 	{
 		/* 云台初始化 */
 		gimbal_app_init();
-
+		return 1;
 	}
 
+	else
+	{
+		return 0;
+	}
 }
 
 
