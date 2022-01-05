@@ -59,6 +59,7 @@ test_h7\main.o: ../Core/Inc/dma.h
 test_h7\main.o: ../Core/Inc/fdcan.h
 test_h7\main.o: ../Core/Inc/rng.h
 test_h7\main.o: ../Core/Inc/spi.h
+test_h7\main.o: ../Core/Inc/tim.h
 test_h7\main.o: ../Core/Inc/usart.h
 test_h7\main.o: ../Core/Inc/gpio.h
 test_h7\main.o: ..\SYSTEM\SysInit\SysInit.h

@@ -53,7 +53,7 @@ void System_init(void)
 
 	/* 	小电脑初始化 */
 		automatic_init();
-		
+			
 		/* 遥控初始化 */
 		remote_control_init();
 	

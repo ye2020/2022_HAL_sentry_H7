@@ -9,6 +9,7 @@
 "test_h7\fdcan.o"
 "test_h7\rng.o"
 "test_h7\spi.o"
+"test_h7\tim.o"
 "test_h7\usart.o"
 "test_h7\stm32h7xx_it.o"
 "test_h7\stm32h7xx_hal_msp.o"

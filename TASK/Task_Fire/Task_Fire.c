@@ -22,6 +22,10 @@
 
 	 
 /******************* 变量 *********************/
+extern TIM_HandleTypeDef htim1;
+extern TIM_HandleTypeDef htim8;
+
+
 /* 全局声明 */
 Fire_task_t Fire_param;
 /* 拨弹电机堵转计数 */
@@ -62,6 +66,8 @@ void Fire_Task(void *pvParameters)
 		
 		/*  心跳任务 */
 		LEDE4(0);
+		
+		snail_motor_pwm(1500);
 		/* 允许控制 */
 	if(Return_gimbal_mode() != GIMBAL_STANDBY && Return_gimbal_mode() != GIMBAL_STOP  )
     {
@@ -146,6 +152,18 @@ static void snail_motor_pwm(uint32_t snial_pwm)
   */
  static void Fire_param_init(void)
 {
+	    /* 看C615电调手册：
+     *       最大兼容控制信号频率: 500Hz  （目前是476Hz 防止浮动
+     *       控制信号行程: 400~2200微秒 （0.4ms~2.2ms）
+     *       默认输出PWM频率: 16kHz （和SNAIL电机手册里面的默认输入PWM频率16kHz对应）
+     */
+	/******************** 开启PWM *******************/
+		HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
+		HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
+		HAL_TIM_PWM_Start(&htim8,TIM_CHANNEL_3);
+		HAL_TIM_PWM_Start(&htim8,TIM_CHANNEL_4);
+			
+	
 	//获取拨弹电机指针
     Fire_param.fire_motorA_measure = Get_Fire_MotorA_Measure_Point();
     Fire_param.fire_motorB_measure = Get_Fire_MotorB_Measure_Point();
