@@ -23,7 +23,6 @@ static uint8_t Get_Laser_Forward(void);
 /****************** 变量 *********************/
 
  float Chassis_ch0 = 0.0f, Chassis_ch1 = 0.0f, Chassis_ch2 = 0.0f; //底盘电机受控量(ch0用于遥控模式的控制量，ch2用于自动模式的控制量)
-static uint16_t STANDBY_chassis_error_count = 0;										// 遥控通道ch[2],归零时会出现拨杆开关短暂错误
 
 
  //底盘遥控选择状态表

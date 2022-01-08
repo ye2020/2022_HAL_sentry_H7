@@ -76,12 +76,13 @@
 /***************************** 各限制选择 *************************************/
 
 #define pitch_angle_position  1   // p轴使用编码器    		0 -> 不使用  1 -> 使用
-#define chassis_using		      1   // 底盘运动         		0 -> 不使用  1 -> 使用
+#define chassis_using		      0   // 底盘运动         		0 -> 不使用  1 -> 使用
 #define hot_limit             0   // 热量限制         		0 -> 不使用  1 -> 使用
 #define yaw_angle_limit       1		// yaw 轴角度限制				0 -> 不限制  1 -> 限制
 #define double_buffer 				0 	// 遥控使用双缓冲区			0 -> 不使用	 1 -> 使用
 #define SFUD_NORFLASH					0		// flash初始化及使能		0 -> 不使能  1 -> 使能
 #define MiniPC_DMA						0		// 小电脑用DMA通信			0 -> 不使用	 1 ->	使用
+#define Debug_mode						0		// 调试模式							0 -> 不开启	 1 -> 开启
 /*****各机器人的云台中值(如果用到编码器校准，目前2020赛季步兵P轴用到编码器初始化)******/
 #define Pitch_Middle_Angle  170 //哨兵50   -8  -82     42  -32  74
 #define Pitch_UP_Angle      190  //	

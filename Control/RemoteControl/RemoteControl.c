@@ -68,7 +68,9 @@ void Remote_Task(void const * argument)
 
 		LEDE5(0);																	//Ö¸Ê¾µÆ
 		
-//		if(Get_appinit_status() == CHASSIS_APP)
+#if (!Debug_mode)		
+		if(Get_appinit_status() == CHASSIS_APP)
+#endif		
 		{
 			fifo_read_buff(pfifo_remote,remote_ReadBuff,32);
 			sbus_to_rc(remote_ReadBuff,&rc_ctrl);

@@ -36,6 +36,32 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
+/************************** Dongguan-University of Technology -ACE**************************
+ *@project   SentryChassis
+ *@Author    Dongguan-University of Technology  ACE  Ò¶ÕÑÍ¢Y.Z.T.
+ *@Date      2022-01-07
+
+                    P                          :u7  :Ii              .
+                   QBQ                     sQBBQBB  PBBBBQI.        XQBBBBBBBBBQBBBBBBBBBBBBM
+                  bBBBZ                 .MQBQBBBQB  5BBBBBBBBi      uBBBBBBBBBQBBBBBBBBBQBBBP
+                 bBBQQB5               XBBBRQQBBBP  sQBQBQQBBBZ     IBBBBBBBBBBBBBBBBBBBBBBBD
+                 rBBgRQBY             BBQQRBBQr        rgBBBQr
+               .  iBBgRQB7           BBQRgBQ:            iE.
+              :BY  7BBgRQB:         sBQMgBB
+             .BBB:  uBBgRBB.        BBMDQQ:                         rSU57  UQPdPbPPPPqPPbPdQs
+             BBQBB:  XBQgRBB        QBggQB                          sBEQ1  QBBBBQBBBBBBBBBBBZ
+            BBQgBBB   KBRDRBB       BBgDBB                          jBDQU  QBBBBBBBBBBBQBBBBg
+           BBQgRBB     dQggQBB      BBggQB.                         iXJS7  uDK5XXK5KXKXXSSXg7
+          gBQgRQB   BBggQDggQBQ     YBQDMBB
+         PBQgRBB   BBBBBRQgMgQBg     BBQgRBB:            iZ:
+        2BQgMBB.  BBBBBBBBBQRgQBK     BBBRQBBQL.      .rRBBQBr       ..                   ..
+       vQBgRQB:  :uriiiiiirBQQgBB1     XQBQQQBBBBE  uBQBQBQBBBD     SBBBBBBBBBBBBBBBBBBBQBBBD
+      7QBQBBBr             :BBBQBBY     .ZBQBBBBBB  qBBQBBBBB:      UBBBBQBBBBBBBBBBBBBBBBBBd
+     LBBBBBBJ               7BBBBBQu       YRBBBQB  KBBBBBJ.        IBQBBBBBQBBBBBBBBBBBBBBBZ
+                                                7i  .7.
+*************************** Dongguan-University of Technology -ACE**************************/
+
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/

@@ -36,8 +36,8 @@
 #define RC_PITCH_SPEED        0.0026f   //遥控器pitch轴速度增益 0.0026
 
 /**********************云台pitch和yaw角度限制**********************/
-#define PITCH_ANGLE_LIMIT_UP    45
-#define PITCH_ANGLE_LIMIT_DOWN  (-20)
+#define PITCH_ANGLE_LIMIT_UP    30
+#define PITCH_ANGLE_LIMIT_DOWN  (-15)
 #define YAW_ANGLE_LIMIT         15
 
 /**********************pitch和yaw输出量限制**********************/
