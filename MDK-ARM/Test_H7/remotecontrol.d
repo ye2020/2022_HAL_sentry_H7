@@ -80,6 +80,7 @@ test_h7\remotecontrol.o: ..\Control\chassis_behaviour\chassis_behaviour.h
 test_h7\remotecontrol.o: ..\Control\gimbal_behaviour\gimbal_behaviour.h
 test_h7\remotecontrol.o: ..\ALGORITHM\rmmotor\rmmotor.h
 test_h7\remotecontrol.o: ..\ALGORITHM\math_filter\filter.h
+test_h7\remotecontrol.o: ..\REFEREE\RefereeDeal.h
 test_h7\remotecontrol.o: ..\components\SFUD\inc\sfud.h
 test_h7\remotecontrol.o: ..\components\SFUD\inc\sfud_def.h
 test_h7\remotecontrol.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h

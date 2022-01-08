@@ -63,12 +63,12 @@ void chassis_behaviour_mode_set(chassis_control_t *chassis_behaviour_f)
 			/* 之前为待机状态 */
       case CHASSIS_STANDBY:
       {
-				if((rc_sw1_lift != 1 && rc_sw2_right != 1) || STANDBY_chassis_error_count >= 5)   // 遥控通道ch[2],归零时会出现拨杆开关短暂错误，导致s1，s2会突然变成2
+//				if((rc_sw1_lift != 1 && rc_sw2_right != 1) || STANDBY_chassis_error_count >= 5)   // 遥控通道ch[2],归零时会出现拨杆开关短暂错误，导致s1，s2会突然变成2
 				{			
          chassis_behaviour_f -> chassis_mode = CHASSIS_INITIALIZE;  //状态设置为初始化
          Remote_reload(); 
 				}
-				else STANDBY_chassis_error_count++;												//摇杆量清零
+//				else STANDBY_chassis_error_count++;												//摇杆量清零
          break;                                           
       }
 			/*  自动模式 */
@@ -98,13 +98,13 @@ void chassis_behaviour_mode_set(chassis_control_t *chassis_behaviour_f)
     }
 
 			
-    // 传入值处理
-		if((rc_sw1_lift != 1 && rc_sw2_right != 1) || STANDBY_chassis_error_count >= 5)
-		{
+//    // 传入值处理
+//	if((rc_sw1_lift != 1 && rc_sw2_right != 1) || STANDBY_chassis_error_count >= 5)
+//	{
 			chassis_set_remote(chassis_behaviour_f,Chassis_ch0,Chassis_ch1, Chassis_ch2);
-		}
-		if(chassis_behaviour_f->chassis_mode != CHASSIS_STANDBY)
-		STANDBY_chassis_error_count = 0;
+//		}
+//		if(chassis_behaviour_f->chassis_mode != CHASSIS_STANDBY)
+//		STANDBY_chassis_error_count = 0;
 
 } 
 
@@ -149,6 +149,7 @@ static void Chassis_Auto(chassis_control_t *Chassis_Auto_f)
 static void Chassis_Blocking(chassis_control_t *Chassis_Blocking_f)
 {
 
+      
 }
 
 

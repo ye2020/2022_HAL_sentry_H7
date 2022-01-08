@@ -28,6 +28,8 @@ static uint8_t sfud_demo_test_buf[SFUD_DEMO_TEST_BUFFER_SIZE];
 
 static  uint16_t  DIP_Switch(void);					// 拨码开关解码
 static uint8_t task_init(void);							// 底盘云台选择初始化
+static uint8_t app = 0;														// 初始化状态
+
 
 extern int sfud_demo(uint32_t addr, size_t size, uint8_t *data); // flash测试Demo
 
@@ -51,9 +53,11 @@ void System_init(void)
 		/* 串口二环形队列初始化 */
 		bsp_usart2_init();
 
-	/* 	小电脑初始化 */
+		/* 	小电脑初始化 */
 		automatic_init();
 			
+		/* 裁判系统初始化*/
+		referee_system_init();
 		/* 遥控初始化 */
 		remote_control_init();
 	
@@ -98,7 +102,6 @@ static  uint16_t  DIP_Switch(void)
   * @retval     none
   * @attention  
   */
-uint8_t app = 0;
 static uint8_t task_init(void)
 {
 
@@ -115,6 +118,7 @@ static uint8_t task_init(void)
 	{
 		/* 云台初始化 */
 		gimbal_app_init();
+		
 		return 1;
 	}
 
@@ -124,6 +128,12 @@ static uint8_t task_init(void)
 	}
 }
 
+
+
+uint8_t Get_appinit_status(void)
+{
+	return app;
+}	
 
 //生成[min,max]范围的随机数
 int RNG_Get_RandomRange(int min,int max)

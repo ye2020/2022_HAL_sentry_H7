@@ -207,8 +207,8 @@ static void Gimbal_init(gimbal_control_t *Gimbal_data_init_f)
         MiniPC_Data_Deal();  //通过串口三接收并保存MiniPC发来的数据
 
         //发送敌人颜色，p轴角度，射速给视觉
-//        MiniPC_Send_Data(0,25,(uint8_t)28);
-
+        MiniPC_Send_Data(1,25,(uint8_t)20);
+ 
         //云台模式选择
         Gimbal_remote_mode_choose(gimbal_task_control);
 

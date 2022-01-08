@@ -80,6 +80,7 @@ test_h7\can_2_receive.o: ..\Control\chassis_behaviour\chassis_behaviour.h
 test_h7\can_2_receive.o: ..\Control\gimbal_behaviour\gimbal_behaviour.h
 test_h7\can_2_receive.o: ..\ALGORITHM\rmmotor\rmmotor.h
 test_h7\can_2_receive.o: ..\ALGORITHM\math_filter\filter.h
+test_h7\can_2_receive.o: ..\REFEREE\RefereeDeal.h
 test_h7\can_2_receive.o: ..\components\SFUD\inc\sfud.h
 test_h7\can_2_receive.o: ..\components\SFUD\inc\sfud_def.h
 test_h7\can_2_receive.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h

@@ -81,6 +81,7 @@ test_h7\stm32h7xx_it.o: ..\Control\chassis_behaviour\chassis_behaviour.h
 test_h7\stm32h7xx_it.o: ..\Control\gimbal_behaviour\gimbal_behaviour.h
 test_h7\stm32h7xx_it.o: ..\ALGORITHM\rmmotor\rmmotor.h
 test_h7\stm32h7xx_it.o: ..\ALGORITHM\math_filter\filter.h
+test_h7\stm32h7xx_it.o: ..\REFEREE\RefereeDeal.h
 test_h7\stm32h7xx_it.o: ..\components\SFUD\inc\sfud.h
 test_h7\stm32h7xx_it.o: ..\components\SFUD\inc\sfud_def.h
 test_h7\stm32h7xx_it.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h

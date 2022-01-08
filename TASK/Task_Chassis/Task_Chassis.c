@@ -42,7 +42,9 @@ void Chassis_Task(void const * argument)
 
 		while(1)
 		{
-			
+			/* 裁判系统数据解析 */
+			 referee_read_data();
+
       /* 底盘控制 */
       chassis_controlwork(&chassis_control);
 

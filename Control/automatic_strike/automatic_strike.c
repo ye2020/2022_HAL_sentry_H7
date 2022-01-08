@@ -19,7 +19,7 @@
 
 /************************ 变量 **************************/
 
-#define USART3_RX_LEN   32
+#define USART3_RX_LEN   128
 #define USART3_TX_LEN   32
 
 extern UART_HandleTypeDef huart3;                                     // 串口三句柄
@@ -50,21 +50,46 @@ Vision_Auto_Data_t *Get_Auto_Control_Point(void)
     return &Vision_Auto_Data;
 }
 
+
+
+#if MiniPC_DMA
+void automatic_init(void)
+{
+	   
+   SET_BIT(huart1.Instance ->CR3, USART_CR3_DMAR); 						//使能DMA串口接收
+
+	__HAL_UART_ENABLE_IT(&huart3, UART_IT_IDLE);  							// 使能空闲中断
+
+		UART_Start_Receive_DMA(&huart3, Usart3_Rx, USART3_RX_LEN);// 开启串口DMA接收（记得开启循环模式）
+    if (fifo_init(pfifo_visual, Usart3_Rx_Buffer, USART3_RX_LEN) == -1)
+    {
+        Error_Handler(); // 必须 2 的幂次方
+    }
+
+	    /* 使能串口DMA发送 */
+    __HAL_DMA_DISABLE(huart3.hdmatx);  // 关闭串口DMA发送通道 （不用开启循环模式）
+    
+    if (fifo_init(&fifo_usart3_tx, Usart3_Tx_Buffer, USART3_TX_LEN) == -1)
+    {
+        Error_Handler(); // 必须 2 的幂次方
+    }
+		
+}
+
+#endif
 /**
-  * @brief          串口三环形队列初始化
+  * @brief          串口三环形队列初始化（串口中断 迫不得已）
   * @param[in]      none
   * @retval         none
   * @attention      功能：初始化环形队列 包括接收缓冲区和长度等
   */
+#if (!MiniPC_DMA)
 void automatic_init(void)
 {
+
 	__HAL_UART_ENABLE_IT(&huart3, UART_IT_IDLE);  // 使能空闲中断
-    /* 使能DMA中断 */
 
-
-    /* 使能串口DMA接收 */
-		HAL_UART_Receive_DMA(&huart3, Usart3_Rx, USART3_RX_LEN); // 开启串口DMA接收（记得开启循环模式）
-
+			HAL_UART_Receive_IT(&huart3, Usart3_Rx, USART3_RX_LEN);
     if (fifo_init(pfifo_visual, Usart3_Rx_Buffer, USART3_RX_LEN) == -1)
     {
         Error_Handler(); // 必须 2 的幂次方
@@ -78,40 +103,100 @@ void automatic_init(void)
         Error_Handler(); // 必须 2 的幂次方
     }
 }
-
+#endif
 
 /**
-  * @brief          串口三视觉中断函数
+  * @brief          串口三视觉中断函数(DMA双缓冲)
   * @param[in]      none
   * @retval         none
   * @attention      功能：视觉数据接收,保存在接收数组中
   */
+#if MiniPC_DMA
+void USER_UART3_IRQHandler(UART_HandleTypeDef *huart)
+{
+		if(__HAL_UART_GET_FLAG(huart,UART_FLAG_IDLE) == SET)          // 检测是否是空闲中断
+	{
+		  volatile uint32_t num = 0;
+
+			__HAL_UART_CLEAR_IDLEFLAG(&huart3);		// 清除挂起标准
+			num = huart->Instance->ISR;                                   //清除RXNE标志
+			num = huart->Instance->RDR;    
+		
+			__HAL_UART_CLEAR_PEFLAG(&huart3);															 // 清除传输完成标志位 
+
+			__HAL_DMA_DISABLE(&hdma_usart3_rx);                            // 关闭串口DMA发送通道
+			
+			num = USART3_RX_LEN - __HAL_DMA_GET_COUNTER(&hdma_usart3_rx);  //! 获取DMA中未传输的数据个数，NDTR寄存器分析参考中文参考手册 （DMA_Channel_TypeDef）  这个不同的芯片HAL库里面定义的命名有点不同
+
+			fifo_write_buff(pfifo_visual ,Usart3_Rx,num);                // 写入环形队列
+			
+		__HAL_DMA_ENABLE(&hdma_usart3_rx);														// 开启DMA（记得呀 ！！）
+    HAL_UART_Receive_DMA(&huart3,Usart3_Rx,USART3_RX_LEN);       // 启动DMA
+
+	}
+
+	
+}
+
+#endif
+
+/**
+  * @brief          串口三视觉中断函数(串口中断 迫不得已)
+  * @param[in]      none
+  * @retval         none
+  * @attention      功能：视觉数据接收,保存在接收数组中
+  */
+#if (!MiniPC_DMA )
 void USER_UART3_IRQHandler(UART_HandleTypeDef *huart)
 {
 
-	if(__HAL_UART_GET_FLAG(huart,UART_FLAG_IDLE) == SET)          // 检测是否是空闲中断
+	if(__HAL_UART_GET_FLAG(huart,UART_FLAG_IDLE) == SET)         						 // 检测是否是空闲中断
 	{		
     volatile uint32_t num = 0;
-
-		__HAL_UART_CLEAR_IDLEFLAG(&huart3);		// 清除挂起标准（H7必须要手动清）
-		num = huart->Instance->ISR;                                   //清除RXNE标志
-		num = huart->Instance->RDR;                                   //清USART_IT_IDLE标志
-
-//    __HAL_DMA_CLEAR_FLAG(huart ->hdmarx, DMA_FLAG_TCIF1_5);      // 清除传输完成标准位 
-		__HAL_UART_CLEAR_PEFLAG(&huart3);															 // 清除传输完成标志位 
-
-//		__HAL_DMA_DISABLE(&hdma_usart3_rx);
-    __HAL_DMA_DISABLE(huart->hdmarx);                            // 关闭串口DMA发送通道
-
-    num = USART3_RX_LEN - __HAL_DMA_GET_COUNTER(huart3.hdmarx);  //! 获取DMA中未传输的数据个数，NDTR寄存器分析参考中文参考手册 （DMA_Channel_TypeDef）  这个不同的芯片HAL库里面定义的命名有点不同
-
-    fifo_write_buff(pfifo_visual ,Usart3_Rx,num);                // 写入环形队列
+		HAL_StatusTypeDef huart_state;																				// 记录串口接收状态
 		
-		__HAL_DMA_ENABLE(&hdma_usart3_rx);														// 开启DMA（记得呀 ！！）
-    HAL_UART_Receive_DMA(&huart3,Usart3_Rx,USART3_RX_LEN);       // 启动DMA
-  }
+		__HAL_UART_CLEAR_IDLEFLAG(&huart3);																		// 清除挂起标准
+		num = huart->Instance->ISR;           																//清除RXNE标志
+		num = huart->Instance->RDR;        	 																 //清USART_IT_IDLE标志
 
+		__HAL_UART_CLEAR_PEFLAG(&huart3);		 																 // 清除传输完成标志位 
+
+                    
+		huart_state = HAL_UART_Receive_IT(&huart3, Usart3_Rx, USART3_RX_LEN); // 开启串口接收
+
+		if(huart_state != HAL_OK)																							// 判断接收状态，防止溢出
+		{
+			if(huart_state == HAL_BUSY)
+			{
+				__HAL_UART_CLEAR_OREFLAG(huart);																 // 清除溢出中断标志
+				huart->RxState = HAL_UART_STATE_READY;													 // 重置状态位
+				huart->Lock    = HAL_UNLOCKED;																	 // 解锁串口
+				
+				huart_state = HAL_UART_Receive_IT(huart,Usart3_Rx,USART3_RX_LEN);	//重新开启接收
+				
+			}
+		}
+			fifo_write_buff(pfifo_visual ,Usart3_Rx,16);                // 写入环形队列
+  }
 }
+#endif
+
+/**
+  * @brief          读取串口接收的数据
+  * @param[in]      *data: 数据指针
+  * @param[in]      len: 数据长度
+  * @retval         成功读取的数据长度
+  */
+uint32_t usart3_read(uint8_t *data, uint16_t len)
+{
+    uint32_t result = 0;
+
+    if (data != NULL)
+        result = fifo_read_buff(pfifo_visual, data, len);
+
+    return result;
+}
+
 
 /**
   * @brief      发送数据给视觉
@@ -146,8 +231,9 @@ void MiniPC_Send_Data(uint8_t data, uint8_t moauto_pitch_anglede, uint8_t shoot_
    
 void MiniPC_Data_Deal(void) 
 {
-
 		uint8_t buff_read[32];
+
+
 	
     uint32_t length = fifo_read_buff(pfifo_visual , buff_read , ARR_SIZE(buff_read));
 
@@ -211,7 +297,7 @@ uint32_t usart3_dma_send(uint8_t *data, uint16_t len)
 {	
 	uint32_t result = fifo_write_buff(&fifo_usart3_tx, data, len); //将数据放入循环缓冲区
 	
-    if (result != 0 && ((huart3.gState == HAL_UART_STATE_READY)|| (huart3.gState == HAL_UART_STATE_BUSY_TX)))
+    if (result != 0 && (huart3.gState == HAL_UART_STATE_READY))
     {
         len = fifo_read_buff(&fifo_usart3_tx, Usart3_Tx, USART3_TX_LEN); //从循环缓冲区获取数据
 		

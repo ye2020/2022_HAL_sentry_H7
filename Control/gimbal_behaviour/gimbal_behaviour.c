@@ -62,13 +62,12 @@ void Gimbal_behaviour_mode_set(gimbal_control_t *fir_gimbal_behaviour_f)
       /*  初始化 */
       case GIMBAL_STANDBY:
       {
-				if((rc_sw1_lift != 1 && rc_sw2_right != 1) || STANDBY_error_count >= 5)   // 遥控通道ch[2],归零时会出现拨杆开关短暂错误，导致s1，s2会突然变成2
-				{																																					// 未查明原因，此处为一个治标不治本的补丁
+//				if((rc_sw1_lift != 1 && rc_sw2_right != 1) || STANDBY_error_count >= 5)   // 遥控通道ch[2],归零时会出现拨杆开关短暂错误，导致s1，s2会突然变成2
+//				{																																					// 未查明原因，此处为一个治标不治本的补丁
 					Gimbal_Stop(fir_gimbal_behaviour_f);                       //停止
 					Remote_reload();                                           //摇杆量清零
-				}
-				else STANDBY_error_count++;
-				
+//				}
+//				else STANDBY_error_count++;
         break;
       }
       /* 自瞄模式 */
@@ -123,8 +122,8 @@ void Gimbal_behaviour_mode_set(gimbal_control_t *fir_gimbal_behaviour_f)
       break;
     }
 		
-		if(fir_gimbal_behaviour_f->gimbal_behaviour != GIMBAL_STANDBY)
-			STANDBY_error_count = 0;
+//		if(fir_gimbal_behaviour_f->gimbal_behaviour != GIMBAL_STANDBY)
+//			STANDBY_error_count = 0;
 }
 
 

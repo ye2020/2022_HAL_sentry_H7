@@ -136,8 +136,8 @@ void shoot_hot_limit(void)
 static void snail_motor_pwm(uint32_t snial_pwm)
 {
 #if	(REVERES_LIGHT_COUPLING == 1)
-	if ((snial_pwm >= 600) && (snail_pwm <= 1600))
-		PWM_Shoot_Upper_Left  = PWM_Shoot_Lower_Left  = PWM_Shoot_Upper_Right = PWM_Shoot_Lower_Right = 2111 - snial_pwm;
+	if ((snial_pwm >= 600) && (snial_pwm <= 1600))
+		PWM_Shoot_Upper_Left  = PWM_Shoot_Lower_Left  = PWM_Shoot_Upper_Right = PWM_Shoot_Lower_Right = 2000 - snial_pwm;
 #else 	
 	if ((snial_pwm >= 600) && (snial_pwm) <= 1600)
 		PWM_Shoot_Upper_Left  = PWM_Shoot_Lower_Left  = PWM_Shoot_Upper_Right = PWM_Shoot_Lower_Right = snial_pwm;
@@ -158,11 +158,13 @@ static void snail_motor_pwm(uint32_t snial_pwm)
      *       默认输出PWM频率: 16kHz （和SNAIL电机手册里面的默认输入PWM频率16kHz对应）
      */
 	/******************** 开启PWM *******************/
+	if(Get_appinit_status() == GIMBAL_APP)
+	{
 		HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
 		HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
 		HAL_TIM_PWM_Start(&htim8,TIM_CHANNEL_3);
 		HAL_TIM_PWM_Start(&htim8,TIM_CHANNEL_4);
-			
+	}	
 	
 	//获取拨弹电机指针
     Fire_param.fire_motorA_measure = Get_Fire_MotorA_Measure_Point();

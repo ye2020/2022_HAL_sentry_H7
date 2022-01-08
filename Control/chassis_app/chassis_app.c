@@ -36,6 +36,7 @@ void chassis_app_init(void)
 {
 	
 
+		
 	
 //	CAN1_receive_callback = CAN1_chassis_receive;
 

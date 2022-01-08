@@ -60,6 +60,9 @@
 #include "maths.h"
 #include "filter.h"
 
+/************************* RefereeDeal ******************** */
+
+#include "RefereeDeal.h"
 
 /************************* SFUD ******************** */
 #include "sfud.h"
@@ -72,12 +75,13 @@
 
 /***************************** 各限制选择 *************************************/
 
-#define pitch_angle_position  0   // p轴使用编码器    		0 -> 不使用  1 -> 使用
+#define pitch_angle_position  1   // p轴使用编码器    		0 -> 不使用  1 -> 使用
 #define chassis_using		      1   // 底盘运动         		0 -> 不使用  1 -> 使用
 #define hot_limit             0   // 热量限制         		0 -> 不使用  1 -> 使用
-#define yaw_angle_limit       0		// yaw 轴角度限制				0 -> 不限制  1 -> 限制
+#define yaw_angle_limit       1		// yaw 轴角度限制				0 -> 不限制  1 -> 限制
 #define double_buffer 				0 	// 遥控使用双缓冲区			0 -> 不使用	 1 -> 使用
 #define SFUD_NORFLASH					0		// flash初始化及使能		0 -> 不使能  1 -> 使能
+#define MiniPC_DMA						0		// 小电脑用DMA通信			0 -> 不使用	 1 ->	使用
 /*****各机器人的云台中值(如果用到编码器校准，目前2020赛季步兵P轴用到编码器初始化)******/
 #define Pitch_Middle_Angle  170 //哨兵50   -8  -82     42  -32  74
 #define Pitch_UP_Angle      190  //	
@@ -89,6 +93,7 @@
 #define LEDE3(PIN) HAL_GPIO_WritePin(GPIOE,GPIO_PIN_3,(GPIO_PinState)PIN)  // 云台	
 #define LEDE4(PIN) HAL_GPIO_WritePin(GPIOE,GPIO_PIN_4,(GPIO_PinState)PIN)	// 火控
 #define LEDE5(PIN) HAL_GPIO_WritePin(GPIOE,GPIO_PIN_5,(GPIO_PinState)PIN)	// 遥控
+
 
 
 //返回数组元素的个数
@@ -115,6 +120,7 @@
 
 extern void System_init(void);
 extern int RNG_Get_RandomRange(int min,int max);
+extern uint8_t Get_appinit_status(void);
 
 
 #endif

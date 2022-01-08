@@ -68,9 +68,11 @@ void Remote_Task(void const * argument)
 
 		LEDE5(0);																	//指示灯
 		
-		fifo_read_buff(pfifo_remote,remote_ReadBuff,32);
-		sbus_to_rc(remote_ReadBuff,&rc_ctrl);
-		
+//		if(Get_appinit_status() == CHASSIS_APP)
+		{
+			fifo_read_buff(pfifo_remote,remote_ReadBuff,32);
+			sbus_to_rc(remote_ReadBuff,&rc_ctrl);
+		}
 		 taskEXIT_CRITICAL(); //退出临界区
 
 		vTaskDelay(2);
@@ -171,8 +173,8 @@ error:
     rc_ctrl.rc.ch[2] = 0;
     rc_ctrl.rc.ch[3] = 0;
     rc_ctrl.rc.ch[4] = 0;
-    rc_ctrl.rc.s[0] = RC_SW_DOWN;
-    rc_ctrl.rc.s[1] = RC_SW_DOWN;
+//    rc_ctrl.rc.s[0] = RC_SW_DOWN;
+//    rc_ctrl.rc.s[1] = RC_SW_DOWN;
     rc_ctrl.mouse.x = 0;
     rc_ctrl.mouse.y = 0;
     rc_ctrl.mouse.z = 0;
@@ -181,7 +183,7 @@ error:
     rc_ctrl.key.v = 0;
     return 1;
 }
-
+           
 //遥控器掉线或数据错误时从启遥控器
 void slove_RC_lost(void)
 {
@@ -348,23 +350,21 @@ void RC_unable(void)
 #if (!double_buffer)
 void USER_UART_IRQHandler(UART_HandleTypeDef *huart)
 {
-	
+	   volatile uint32_t num = 0;
+			HAL_StatusTypeDef huart_state;																				// 记录串口接收状态
 	if(__HAL_UART_GET_FLAG(huart,UART_FLAG_RXNE) == RESET)	//接收到数据
     {
         __HAL_UART_CLEAR_PEFLAG(&huart1);
     }
 		if(__HAL_UART_GET_FLAG(huart,UART_FLAG_IDLE) != RESET )	// 空闲中断
     {
-			__HAL_UART_CLEAR_IDLEFLAG(huart);
+			__HAL_UART_CLEAR_IDLEFLAG(&huart1);
 		}
-		
-			HAL_UART_Receive_IT(&huart1, Usart1_Rx, 32 );//用串口接收遥控数据
-		
-			fifo_write_buff(&fifo_usart1_rx, Usart1_Rx, 32);				// 写入环形队列	
+
+		huart_state =	HAL_UART_Receive_IT(&huart1, Usart1_Rx, 32 );//用串口接收遥控数据
+
+		fifo_write_buff(&fifo_usart1_rx, Usart1_Rx, 32);				// 写入环形队列	
 }
-
-
-
 
 #endif
 

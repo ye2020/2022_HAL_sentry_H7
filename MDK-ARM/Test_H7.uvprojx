@@ -189,7 +189,7 @@
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H750xx,STM32_THREAD_SAFE_STRATEGY=4</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;          ../Drivers/STM32H7xx_HAL_Driver/Inc;          ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;          ../Drivers/CMSIS/Device/ST/STM32H7xx/Include;          ../Drivers/CMSIS/Include;          ..\components\SFUD\src;          ..\components\SFUD\port;          ..\components\SFUD\inc;          ..\Control\FDCAN_Receive;          ../Middlewares/Third_Party/FreeRTOS/Source/include;          ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;          ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;          ..\TASK\Task_Detect;          ..\TASK\Task_Fire;          ..\TASK\Task_Led;          ..\TASK\Task_Safe;          ..\SYSTEM\SysInit;          ..\Control\chassis_app;          ..\Control\gimbal_app;          ..\TASK\Task_Chassis;          ..\TASK\Task_Gimbal;          ..\SYSTEM\bsp_usart2;          ..\SYSTEM\FIFO_BUFF;          ..\Control\automatic_strike;          ..\Control\CAN_1_Receive;          ..\Control\CAN_2_Receive;          ..\Control\chassis_behaviour;          ..\Control\gimbal_behaviour;          ..\Control\RemoteControl;          ..\ALGORITHM\math_filter;          ..\ALGORITHM\list_of_function;          ..\ALGORITHM\maths;          ..\ALGORITHM\pid;          ..\ALGORITHM\rmmotor</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;..\components\SFUD\src;..\components\SFUD\port;..\components\SFUD\inc;..\Control\FDCAN_Receive;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;..\TASK\Task_Detect;..\TASK\Task_Fire;..\TASK\Task_Led;..\TASK\Task_Safe;..\SYSTEM\SysInit;..\Control\chassis_app;..\Control\gimbal_app;..\TASK\Task_Chassis;..\TASK\Task_Gimbal;..\SYSTEM\bsp_usart2;..\SYSTEM\FIFO_BUFF;..\Control\automatic_strike;..\Control\CAN_1_Receive;..\Control\CAN_2_Receive;..\Control\chassis_behaviour;..\Control\gimbal_behaviour;..\Control\RemoteControl;..\ALGORITHM\math_filter;..\ALGORITHM\list_of_function;..\ALGORITHM\maths;..\ALGORITHM\pid;..\ALGORITHM\rmmotor;..\REFEREE</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2156,6 +2156,26 @@
               <FileName>fifo_buff.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\FIFO_BUFF\fifo_buff.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>REFEREE</GroupName>
+          <Files>
+            <File>
+              <FileName>CRC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\REFEREE\CRC.c</FilePath>
+            </File>
+            <File>
+              <FileName>RefereeDeal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\REFEREE\RefereeDeal.c</FilePath>
+            </File>
+            <File>
+              <FileName>UserReferee.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\REFEREE\UserReferee.c</FilePath>
             </File>
           </Files>
         </Group>

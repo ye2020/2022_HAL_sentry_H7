@@ -74,7 +74,10 @@
 "test_h7\sysinit.o"
 "test_h7\bsp_usart2.o"
 "test_h7\fifo_buff.o"
---strict --scatter "Test_H7\Test_H7.sct"
+"test_h7\crc.o"
+"test_h7\refereedeal.o"
+"test_h7\userreferee.o"
+--library_type=microlib --strict --scatter "Test_H7\Test_H7.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "Test_H7.map" -o Test_H7\Test_H7.axf
