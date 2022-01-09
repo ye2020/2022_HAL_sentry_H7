@@ -39,11 +39,11 @@ RC_ctrl_t rc_ctrl;															//遥控器控制变量static
 
 static uint8_t sbus_rx_buf[2][SBUS_RX_BUF_NUM];	//接收原始数据，为18个字节，给了36个字节长度，防止DMA传输越界
 
-static uint8_t Usart1_Tx[USART1_TX_LEN] = {0};	//接收区
+//static uint8_t Usart1_Tx[USART1_TX_LEN] = {0};	//接收区
  uint8_t Usart1_Rx[32] = {0};		
 
  uint8_t Usart1_Rx_Buffer[USART1_RX_LEN] = {0};	//缓冲队列
-static uint8_t Usart1_Tx_Buffer[USART1_TX_LEN] = {0};
+//static uint8_t Usart1_Tx_Buffer[USART1_TX_LEN] = {0};
 
 
 /************************** 声明 ***************************/

@@ -56,8 +56,6 @@ void System_init(void)
 		/* 	小电脑初始化 */
 		automatic_init();
 			
-		/* 裁判系统初始化*/
-		referee_system_init();
 		/* 遥控初始化 */
 		remote_control_init();
 	
@@ -109,16 +107,15 @@ static uint8_t task_init(void)
 	
 	if(app == CHASSIS_APP)
 	{
-		/*  底盘初始化 */
+		/*  底盘板初始化 */
 		chassis_app_init();
 		return 1;
 	}
 	
 	else if (app == GIMBAL_APP)
 	{
-		/* 云台初始化 */
+		/* 云台板初始化 */
 		gimbal_app_init();
-		
 		return 1;
 	}
 

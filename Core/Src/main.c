@@ -36,6 +36,10 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
+
+
+
+
 /************************** Dongguan-University of Technology -ACE**************************
  *@project   SentryChassis
  *@Author    Dongguan-University of Technology  ACE  Ò¶ÕÑÍ¢Y.Z.T.
@@ -60,6 +64,11 @@
      LBBBBBBJ               7BBBBBQu       YRBBBQB  KBBBBBJ.        IBQBBBBBQBBBBBBBBBBBBBBBZ
                                                 7i  .7.
 *************************** Dongguan-University of Technology -ACE**************************/
+
+
+
+
+
 
 
 /* USER CODE END PTD */

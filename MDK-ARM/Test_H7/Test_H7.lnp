@@ -59,6 +59,7 @@
 "test_h7\task_safe.o"
 "test_h7\task_chassis.o"
 "test_h7\task_gimbal.o"
+"test_h7\task_abovegimbal.o"
 "test_h7\chassis_app.o"
 "test_h7\gimbal_app.o"
 "test_h7\automatic_strike.o"

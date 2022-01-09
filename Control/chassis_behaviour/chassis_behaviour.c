@@ -25,6 +25,7 @@ static uint8_t Get_Laser_Forward(void);
  float Chassis_ch0 = 0.0f, Chassis_ch1 = 0.0f, Chassis_ch2 = 0.0f; //底盘电机受控量(ch0用于遥控模式的控制量，ch2用于自动模式的控制量)
 
 
+
  //底盘遥控选择状态表
  Chassis_mode_e chassis_remote_control_Table[RC_SW1_lift][RC_SW2_right] = 
 {           /*右上*/                     /* 右下 */                          /* 右中 */
@@ -127,6 +128,9 @@ static void Chassis_Stop(chassis_control_t *Chassis_Stop_f)
 }
 
 
+/*********************** 变量 *****************************/
+static uint16_t outpost_HP = 0;													//前哨站血量
+
 /**
   * @brief          底盘自动
   * @param[in]      *Chassis_Auto_f：底盘主结构体
@@ -134,21 +138,236 @@ static void Chassis_Stop(chassis_control_t *Chassis_Stop_f)
   */
 static void Chassis_Auto(chassis_control_t *Chassis_Auto_f)
 {
-    Chassis_ch2 = -CHASSIS_AUTO_SPPED;
 
+    if(automatic_Enemy_color() == Enemy_color_blue)       // 敌人为蓝方
+      outpost_HP = 	referee_red_outpost_HP();							// 获取红方前哨站血量
+
+    else if (automatic_Enemy_color() == Enemy_color_red)  // 敌方为红方
+      outpost_HP =  referee_blue_outpost_HP();            // 获取蓝方前哨站血量
+
+    if(outpost_HP >= 10)                                  // 己方前哨站血量较高
+      Chassis_ch2 = CHASSIS_AUTO_SLOW_SPPED;
+
+     else if(outpost_HP < 10) 
+     {
+       if(get_Enemy_status() == Enemy_Disappear)          // 敌人未出现
+       {
+          Chassis_Blocking(Chassis_Auto_f);             // 走位模式（控制方向和速度）
+
+           if((Get_Laser_Forward() == HAVE_THING) && (Get_Laser_Back() == NO_THING))        // 边缘转向（优先级高于走位模式）
+           {
+              Chassis_Auto_f->sign = GOBACK;
+           }
+            if((Get_Laser_Forward() == NO_THING) && (Get_Laser_Back() == HAVE_THING))
+            {
+              Chassis_Auto_f->sign = GOFORWARD;
+            } 
+       }
+
+       else if(get_Enemy_status() == Enemy_Appear)
+       {
+          Chassis_ch2 = CHASSIS_AUTO_SLOW_SPPED;
+
+            if((Get_Laser_Forward() == HAVE_THING) && (Get_Laser_Back() == NO_THING))
+            {
+                Chassis_Auto_f->sign = GOBACK;
+            }
+
+            if((Get_Laser_Forward() == NO_THING) && (Get_Laser_Back() == HAVE_THING))
+            {
+                Chassis_Auto_f->sign = GOFORWARD;
+            }
+       }
+     }
 }
 
+
+static uint16_t outpost_HP;													//前哨站血量
+ uint8_t  Enemy_color;												//调试用
+static uint16_t 		  speed_status_count = 0;							// 变速时间计时
+static uint16_t 		  speed_status_count2 = 0;						// 变向时间计时
+static int32_t  chassis_register1 = 5000;//5000;//360;						//速度记录值
+static int32_t 	chassis_register2 = 0;							//速度记录值
+static uint16_t 			speed_status_flag = 0;							// 边缘转向紧止随机 (1 -> 禁用 0 —> 可用)
+static uint16_t 			forward_flag ,back_flag = 0;					// 随机模式1 强制转向标志位
+#if (SPEED_MODE == 4)
+uint16_t 		  speed_status_count3 = 0;									// 变向模式二时间计时
+uint16_t 			chassis_flag = 0;													//变向模式二标志位
+uint16_t  		speed_time_back_flag = SPEED_TIME_FLAG;			//计数时间1
+uint16_t  		speed_time_forward_flag = SPEED_TIME_FLAG;	//计数时间1
+#endif	
+#if (SPEED_MODE == 2 || SPEED_MODE == 4 || SPEED_MODE == 3)			
+uint16_t 			last_remain_HP = 600; 											//上次剩余血量
+uint16_t 			changed_HP;																	// 变化血量		
+uint16_t      speed_status_count4 = 0;									// 模式5计数值
+#endif	
 
 
 /**
   * @brief          底盘走位
 * @param[in]      *Chassis_Blocking_f:  底盘主结构体
-  * @retval         none
+  * @retval       （ps： 这算法是好久之前赛前临时写的 没有任何封装 但效果还行 目前懒得去封装。留给后人doge） 
   */
 static void Chassis_Blocking(chassis_control_t *Chassis_Blocking_f)
 {
+#if   (SPEED_MODE == 1)										
+            Chassis_ch2 = CHASSIS_AUTO_SPPED;
+#elif (SPEED_MODE == 2 || SPEED_MODE == 3 || SPEED_MODE == 4)
+						
+						speed_status_count ++;
+					
+					if ((Get_Laser_Forward() == HAVE_THING) || (Get_Laser_Back() == HAVE_THING))	// 运动到边缘 ： 标志位置1 -> 一段时间内运动不收随机算法影响
+					{
+							speed_status_flag = 1;
+						
+							speed_status_count 	= 0;
+							speed_status_count2 = 0; 
+						
+							#if (SPEED_MODE == 4)																																												// 防止频繁转向导致电机出错
+							speed_status_count3 = 0; 
+							#endif	
+							#if (SPEED_MODE == 2 || SPEED_MODE == 4 || SPEED_MODE == 3)			
+							speed_status_count4 = 0;
+							#endif												
+					}
+					
+					  if(speed_status_count > SPEED_TIME_FLAG)
+					{	
+						speed_status_flag = 0;																																// 边缘转向标志位
+						
+						if(speed_status_flag == 0 )
+						{
+							speed_status_count = 0;															  															//计数值清零
+							chassis_register1 = RNG_Get_RandomRange(4900,5200);//(4900,5000);											//产生4000~7000的随机数(4900 5000)
+							Chassis_ch2 = chassis_register1;																										//赋值新的随机速度值
+						}							
+					}
+						else
+					{
+						Chassis_ch2 = chassis_register1;												//速度值为上一次随机数的值
+					}
+#endif					
+#if (SPEED_MODE == 3)
+					speed_status_count2 ++;
+			
+					if(speed_status_count2 > SPEED_TIME_FLAG)									// 定时时间到 ： 产生随机数
+					{
+						speed_status_count2 =0;
+						speed_status_flag = 0;																	
+						chassis_register2 = RNG_Get_RandomRange(0,1);						// 产生0~1随机数
+						
+						if (chassis_register2 > 0)
+						{
+							forward_flag ++;
+							back_flag = 0;
+							if (forward_flag > 3 )
+								chassis_register2 = 0;
+							else
+								chassis_register2 = 1;
+						}
+																																		// 控制变向的时间在 3 个周期内
+						if (chassis_register2 <= 0)
+						{
+							back_flag ++;
+							forward_flag =0;
+							if(back_flag > 3)
+								chassis_register2 = 1;
+							else
+								chassis_register2 = 0;
+						}
+						
+					}
+					
+					
+					if(speed_status_flag == 0)																// 标志位为1时
+				{
+					if (chassis_register2 > 0)
+					{	
+						Chassis_Blocking_f->sign = GOFORWARD;												// 随机数大于1， 前进
+					}
+					
+					if (chassis_register2 <= 0)															
+					{	
+            Chassis_Blocking_f->sign = GOBACK;														// 小于1, 后退
+					}
+		   	}	
 
-      
+#endif
+#if (SPEED_MODE == 4)
+
+				speed_status_count3 ++;
+//				Chassis_ch2 = chassis_register1;													
+
+        if((Get_Laser_Forward() == HAVE_THING) && (Get_Laser_Back() == NO_THING))			 
+				{
+					chassis_flag = 1; 																																		// 此时底盘后退开启新的周期						
+					speed_time_forward_flag = SPEED_TIME_FLAG;																						// 不断重置另一种转态的计数上限
+					speed_status_count3 = 0;
+				}
+				if((Get_Laser_Forward() == NO_THING) && (Get_Laser_Back() == HAVE_THING))
+				{
+					chassis_flag = 2;
+					speed_time_back_flag = SPEED_TIME_FLAG;
+					speed_status_count3 = 0;
+				}
+				
+			
+			if(speed_status_flag == 0)																															// 边缘转向禁用随机
+			{
+				if (chassis_flag == 1)																															
+				{
+					if(speed_status_count3 > speed_time_back_flag && Chassis_Blocking_f->sign == GOBACK)		// 计时器计数值到达 -> 往初始方向反向走
+					{ 
+						Chassis_Blocking_f->sign = GOFORWARD;
+						speed_status_count3 = 0;
+						speed_time_back_flag += SPEED_TIME_FLAG;																					// 计数值达到指定值 -> 指定值增加一个周期
+					}
+				}
+				else if(chassis_flag == 2)
+				{
+					if(speed_status_count3 > speed_time_forward_flag && Chassis_Blocking_f->sign == GOFORWARD)
+					{
+						Chassis_Blocking_f->sign = GOBACK;
+						speed_status_count3 = 0;
+						speed_time_forward_flag += SPEED_TIME_FLAG;
+					}
+					
+				}
+			}
+				
+#endif	
+#if (SPEED_MODE == 2 || SPEED_MODE == 4 || SPEED_MODE == 3)			          //挨打反向
+				
+				changed_HP = last_remain_HP - referee_remain_HP();										// 变化的血量
+				last_remain_HP = referee_remain_HP();																	// 上次血量
+				speed_status_count4++;
+				
+				if(speed_status_count4 > 0xFFF0)				                              // 防止计数溢出															
+					speed_status_count4 = 0;
+				
+				if(changed_HP >= 10)
+			{
+					if(speed_status_count4 > SPEED_TIME_FLAG)                         // 避免频繁反向
+				{
+						if(speed_status_flag == 0)																			// 边缘转向禁用随机
+						{	
+							(Chassis_Blocking_f->sign == GOBACK)? (Chassis_Blocking_f->sign = GOFORWARD) : (Chassis_Blocking_f->sign = GOBACK);			// 挨打反向
+							chassis_register1 = CHASSIS_BLOCKING_SPPED;
+							
+							speed_status_count = 0;
+							speed_status_count2 = 0; 
+							#if (SPEED_MODE == 4)																																												// 防止频繁转向导致电机出错
+							speed_status_count3 = 0; 
+							#endif	
+							#if (SPEED_MODE == 2 || SPEED_MODE == 4 || SPEED_MODE == 3)			
+							speed_status_count4 = 0;
+							#endif
+						}
+				}	
+			}
+					 		
+#endif				
+				     
 }
 
 

@@ -49,6 +49,9 @@
 #define HAVE_THING 1		//距离内有东西0     
 #define NO_THING   0		//距离内没东西1
 
+
+#define SPEED_TIME_FLAG				430	//510			//变速时间
+#define SPEED_MODE					4//底盘变速：1 -> 不变速； 2 -> 变速  ; 3 -> 变速 + 变向1（随机变向） ;4 -> 变向2（等差数列）
 /**********************运动加速度限制**********************/
 #define STRAIGHT_ACCELERAD        3.5f      //直行底盘加速度限制
 #define TRANSLATION_ACCELERAD     5.5f      //平移底盘加速度限制
@@ -56,6 +59,8 @@
 
 #define CHASSIS_AUTO_SPPED				4000			 //21赛季为7000			
 #define CHASSIS_BLOCKING_SPPED		    6700 //走位速度 ，挨打后的速度 7000  
+#define CHASSIS_AUTO_SLOW_SPPED			0    // 遇到敌人 速度减慢		5.17   3000->0  5.25
+
 /***********************************  结构体 *************************************/
 
 /*底盘电机数据*/
@@ -93,6 +98,14 @@ typedef enum
     CHASSIS_FIXATION			// 底盘固定模式
 } Chassis_mode_e;
 
+
+/*敌人颜色*/
+typedef enum
+{
+    Enemy_color_red = 0,    //敌人颜色为红色
+    Enemy_color_blue		//敌人颜色为蓝色
+
+} Enemy_color_e;
 
 
 /*底盘整体数据结构体*/
@@ -133,6 +146,7 @@ typedef struct
 extern  void Chassis_Task(void const * argument);
 extern  void chassis_set_remote(chassis_control_t *chassis_set_f, int16_t ch0, int16_t ch1, int16_t ch2);
 extern  void Chassis_Task_OFF(uint8_t options);
+extern uint8_t  automatic_Enemy_color(void);
 
 
 #endif

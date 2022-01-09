@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "sysinit.h": "c",
+        "task_abovegimbal.h": "c",
+        "can_1_receive.h": "c",
+        "can_2_receive.h": "c",
+        "gimbal_behaviour.h": "c",
+        "automatic_strike.h": "c",
+        "task_chassis.h": "c"
+    }
+}

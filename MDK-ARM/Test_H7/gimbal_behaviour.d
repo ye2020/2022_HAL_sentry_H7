@@ -54,6 +54,7 @@ test_h7\gimbal_behaviour.o: ..\SYSTEM\SysInit\SysInit.h
 test_h7\gimbal_behaviour.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 test_h7\gimbal_behaviour.o: F:\keil5\ARM\ARMCC\Bin\..\include\string.h
 test_h7\gimbal_behaviour.o: ..\TASK\Task_Chassis\Task_Chassis.h
+test_h7\gimbal_behaviour.o: ..\TASK\Task_AboveGimbal\Task_AboveGimbal.h
 test_h7\gimbal_behaviour.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/freertos.h
 test_h7\gimbal_behaviour.o: ../Core/Inc/FreeRTOSConfig.h
 test_h7\gimbal_behaviour.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h

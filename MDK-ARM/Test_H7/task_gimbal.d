@@ -53,6 +53,7 @@ test_h7\task_gimbal.o: ..\SYSTEM\SysInit\SysInit.h
 test_h7\task_gimbal.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 test_h7\task_gimbal.o: F:\keil5\ARM\ARMCC\Bin\..\include\string.h
 test_h7\task_gimbal.o: ..\TASK\Task_Chassis\Task_Chassis.h
+test_h7\task_gimbal.o: ..\TASK\Task_AboveGimbal\Task_AboveGimbal.h
 test_h7\task_gimbal.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/freertos.h
 test_h7\task_gimbal.o: ../Core/Inc/FreeRTOSConfig.h
 test_h7\task_gimbal.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h

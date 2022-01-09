@@ -27,7 +27,7 @@ static void Chassis_accelerated_Control(int16_t *ch0, int16_t *ch1, int16_t *ch2
 static void Chassis_to_Gimbal(chassis_control_t *chassis_setmsg_f);											// 底盘发送数据到云台
 
 
-/********************************************/
+/********************* 变量 ***********************/
 //底盘控制数据 static
  chassis_control_t chassis_control;
 
@@ -361,5 +361,18 @@ void Chassis_Task_OFF(uint8_t options)
 //            CAN1_Chassis_Gimbal_Fire(0, 0, 0);
         }
     }
+}
+
+// 处理己方id 获取敌方颜色				7 -> 红方哨兵； 0 -> 蓝方哨兵
+uint8_t  automatic_Enemy_color(void)
+{
+  static uint8_t robot_id;
+    robot_id = referee_robot_id();
+
+    if(robot_id == 7)
+       return Enemy_color_blue;
+
+    else if(robot_id == 107)
+        return Enemy_color_red;
 }
 

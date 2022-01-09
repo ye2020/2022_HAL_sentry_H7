@@ -73,6 +73,7 @@ test_h7\main.o: ..\ALGORITHM\maths\maths.h
 test_h7\main.o: ..\TASK\Task_Gimbal\Task_Gimbal.h
 test_h7\main.o: ..\Control\automatic_strike\automatic_strike.h
 test_h7\main.o: ..\TASK\Task_Fire\Task_Fire.h
+test_h7\main.o: ..\TASK\Task_AboveGimbal\Task_AboveGimbal.h
 test_h7\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 test_h7\main.o: ..\SYSTEM\bsp_usart2\bsp_usart2.h
 test_h7\main.o: ..\SYSTEM\FIFO_BUFF\fifo_buff.h

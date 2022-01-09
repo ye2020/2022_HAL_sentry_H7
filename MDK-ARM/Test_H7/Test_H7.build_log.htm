@@ -17,7 +17,7 @@ Library Manager: ArmAr.exe V5.06 update 7 (build 960)
 Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
 CPU DLL:         SARMCM3.DLL V5.35.0.2
 Dialog DLL:      DCM.DLL V1.17.3.0
-Target DLL:      Segger\JL2CM3.dll V2.99.40.0
+Target DLL:      CMSIS_AGDI.dll V1.33.0.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
@@ -27,7 +27,14 @@ Project File Date:  01/08/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\keil5\ARM\ARMCC\Bin'
 Build target 'Test_H7'
-"Test_H7\Test_H7.axf" - 0 Error(s), 0 Warning(s).
+compiling RemoteControl.c...
+..\Control\RemoteControl\RemoteControl.c(356): warning:  #550-D: variable "huart_state"  was set but never used
+  			HAL_StatusTypeDef huart_state;																				// 记录串口接收状态
+..\Control\RemoteControl\RemoteControl.c: 1 warning, 0 errors
+linking...
+Program Size: Code=56532 RO-data=1984 RW-data=360 ZI-data=31272  
+FromELF: creating hex file...
+"Test_H7\Test_H7.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -51,7 +58,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:07
 </pre>
 </body>
 </html>

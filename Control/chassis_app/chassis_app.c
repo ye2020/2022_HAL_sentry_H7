@@ -21,29 +21,35 @@
 #include "chassis_app.h"
 
 osThreadId ChassisTaskHandle;
+osThreadId AboveGimbalTaskHandle;
 static FDCAN_TxHeaderTypeDef Txmessage;				//发送的信息
 extern FDCAN_HandleTypeDef hfdcan1;                     // 句柄
 extern FDCAN_HandleTypeDef hfdcan2;
 
 
 /**
-  * @brief      底盘初始化
+  * @brief      底盘板初始化
   * @param[in]  
   * @retval     void
 */
 
 void chassis_app_init(void)
 {
-	
 
+	/* 裁判系统初始化*/
+	referee_system_init();
 		
-	
-//	CAN1_receive_callback = CAN1_chassis_receive;
+	CAN1_receive_callback = chassis_can1_callback;
+	CAN2_receive_callback = chassis_can2_callback;
 
-	
+
 	/*  创建底盘任务 */
   osThreadDef(ChassisTask, Chassis_Task, osPriorityRealtime, 0, 200);
   ChassisTaskHandle = osThreadCreate(osThread(ChassisTask), NULL);
+
+  	/*  创建上云台任务 */
+  osThreadDef(AboveGimbalTask, AboveGimbal_TASK, osPriorityRealtime, 0, 200);
+  AboveGimbalTaskHandle = osThreadCreate(osThread(AboveGimbalTask), NULL);
 
 }
 

@@ -38,7 +38,7 @@ typedef enum
     CAN_PIT_MOTOR_ID = 0x207,
     CAN_GIMBAL_ALL_ID = 0x1FF,
 	
-
+    CAN_ABOVEGIMBAL_YAW_MOTOR_ID = 0x208,
     /* 在云台部分代码的can2处调用此枚举。 */
 		#if (gimbal_yaw_TO_chassis == 2)
 	    CAN_YAW_MOTOR_ID = 0x208,
@@ -86,6 +86,12 @@ motor_measure_t *Chassis_Get_Yaw_Gimbal_Motor_Measure_Point(void);
 const motor_measure_t *Get_Fire_MotorB_Measure_Point(void);
 const motor_measure_t *Get_Fire_MotorA_Measure_Point(void);
 motor_measure_t *Get_Pitch_Gimbal_Motor_Measure_Point(void);
+extern void (*CAN1_receive_callback)(FDCAN_HandleTypeDef *);
+extern void (*CAN2_receive_callback)(FDCAN_HandleTypeDef *);
+extern void chassis_can1_callback (FDCAN_HandleTypeDef *hcan);
+extern void gimbal_can1_callback (FDCAN_HandleTypeDef *hcan);
+extern motor_measure_t *Get_Pitch_AboveGimbal_Motor_Measure_Point(void);
+extern const motor_measure_t *Get_Yaw_AboveGimbal_Motor_Measure_Point(void);
 
 
 #endif

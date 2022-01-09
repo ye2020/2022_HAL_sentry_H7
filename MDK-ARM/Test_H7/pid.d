@@ -53,6 +53,7 @@ test_h7\pid.o: ..\Control\CAN_1_Receive\CAN_1_Receive.h
 test_h7\pid.o: ..\TASK\Task_Gimbal\Task_Gimbal.h
 test_h7\pid.o: ..\Control\automatic_strike\automatic_strike.h
 test_h7\pid.o: ..\TASK\Task_Fire\Task_Fire.h
+test_h7\pid.o: ..\TASK\Task_AboveGimbal\Task_AboveGimbal.h
 test_h7\pid.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/freertos.h
 test_h7\pid.o: ../Core/Inc/FreeRTOSConfig.h
 test_h7\pid.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h

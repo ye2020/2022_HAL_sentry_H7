@@ -53,6 +53,7 @@ test_h7\task_fire.o: ..\TASK\Task_Chassis\Task_Chassis.h
 test_h7\task_fire.o: ..\ALGORITHM\maths\maths.h
 test_h7\task_fire.o: ..\TASK\Task_Gimbal\Task_Gimbal.h
 test_h7\task_fire.o: ..\Control\automatic_strike\automatic_strike.h
+test_h7\task_fire.o: ..\TASK\Task_AboveGimbal\Task_AboveGimbal.h
 test_h7\task_fire.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/freertos.h
 test_h7\task_fire.o: ../Core/Inc/FreeRTOSConfig.h
 test_h7\task_fire.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
