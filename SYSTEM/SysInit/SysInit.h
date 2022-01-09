@@ -104,7 +104,7 @@
 
 #define LEDE2(PIN) HAL_GPIO_WritePin(GPIOE,GPIO_PIN_2,(GPIO_PinState)PIN)	// µ×ÅÌ
 #define LEDE3(PIN) HAL_GPIO_WritePin(GPIOE,GPIO_PIN_3,(GPIO_PinState)PIN)  // ÔÆÌ¨	
-#define LEDE4(PIN) HAL_GPIO_WritePin(GPIOE,GPIO_PIN_4,(GPIO_PinState)PIN)	// »ð¿Ø
+#define LEDE4(PIN) HAL_GPIO_WritePin(GPIOE,GPIO_PIN_4,(GPIO_PinState)PIN)   // ÉÏÔÆÌ¨
 #define LEDE5(PIN) HAL_GPIO_WritePin(GPIOE,GPIO_PIN_5,(GPIO_PinState)PIN)	// Ò£¿Ø
 
 

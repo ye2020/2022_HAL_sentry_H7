@@ -13,13 +13,22 @@
 
 /**************** 变量 *******************/ 
 
-// 云台遥控状态表
+
+// 下云台遥控状态表
 gimbal_behaviour_e gimbal_remote_control_Table[3][3] = 
 {           /*右上*/                     /* 右下 */                          /* 右中 */
-  /*左上*/  {GIMBAL_AUTOCONTROL,         GIMBAL_PATROl,             GIMBAL_REMOTECONTROL_HIGH_SPEED   },
+  /*左上*/  {GIMBAL_AUTOCONTROL,         GIMBAL_STANDBY,            GIMBAL_REMOTECONTROL_HIGH_SPEED   },
   /*左下*/  {GIMBAL_STANDBY,             GIMBAL_STANDBY,            GIMBAL_REMOTECONTROL_STOP_SHOOT   },
   /*左中*/  {GIMBAL_AUTOATTACK,          GIMBAL_STANDBY,            GIMBAL_REMOTECONTROL_LOW_SPEED    }
-};           
+}; 
+
+// 上云台遥控状态表
+gimbal_behaviour_e above_gimbal_remote_control_Table[3][3] = 
+{           /*右上*/                     /* 右下 */                          /* 右中 */
+  /*左上*/  {GIMBAL_AUTOCONTROL,         GIMBAL_STANDBY,            GIMBAL_REMOTECONTROL_HIGH_SPEED   },
+  /*左下*/  {GIMBAL_STANDBY,             GIMBAL_STANDBY,            GIMBAL_REMOTECONTROL_STOP_SHOOT   },
+  /*左中*/  {GIMBAL_AUTOATTACK,          GIMBAL_STANDBY,            GIMBAL_REMOTECONTROL_LOW_SPEED    }
+};    
 
 
 
@@ -48,8 +57,12 @@ static void Gimbal_RemoteControl(gimbal_control_t *gimbal_remotecontrol_f);     
 void Gimbal_behaviour_mode_set(gimbal_control_t *fir_gimbal_behaviour_f)
 {
     const char rc_sw1_lift    = (fir_gimbal_behaviour_f ->gimbal_RC ->rc.s[1] - 1);           // 遥控拨杆值减1
-		const char rc_sw2_right 	= (fir_gimbal_behaviour_f ->gimbal_RC ->rc.s[0] - 1);           
+		const char rc_sw2_right 	= (fir_gimbal_behaviour_f ->gimbal_RC ->rc.s[0] - 1); 
+    
+    if(Get_appinit_status() == GIMBAL_APP)          
     fir_gimbal_behaviour_f->gimbal_behaviour = gimbal_remote_control_Table[rc_sw1_lift][rc_sw2_right];
+    else if(Get_appinit_status() == CHASSIS_APP)
+    fir_gimbal_behaviour_f->gimbal_behaviour = above_gimbal_remote_control_Table[rc_sw1_lift][rc_sw2_right];
 
     switch (fir_gimbal_behaviour_f->gimbal_behaviour)
     {

@@ -75,9 +75,10 @@ USART_InitStructure.USART_WordLength = USART_WordLength_9b;`
 
 
 
-##### H7 FREERTOS 跑飞进入HardFault_Handler
+##### H7 FREERTOS 跑飞进入硬件错误函数HardFault_Handler
 
 - [x] **原因：**LED使用位带操作，未修改过地址偏移和映射，可能地址错误造成越界。
+- [x] **原因2：**在板子选择初始化部分*`chassis_app_init（）`*和`gimbal_app_init（）`里添加操作系统的 延时函数`vTaskDelay（）`
 - [x] **解决：**修改LED代码，不使用位带操作。
 
 

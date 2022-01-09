@@ -12,6 +12,9 @@
   @endverbatim
   *****************************东莞理工学院ACE实验室 *****************************
 	*/
+#include "Task_Gimbal.h"
+
+
 #ifndef TASK_ABOVEGIMBAL_H
 #define TASK_ABOVEGIMBAL_H
 
@@ -57,6 +60,7 @@
 
 
 extern void AboveGimbal_TASK(void const * argument);
+extern VisionStatus_E  get_Enemy_status_from_above(void);
 
 
 #endif

@@ -24,6 +24,7 @@ gimbal_control_t Abovegimbal_control;
 
 /**************** 函数声明 *******************/ 
 static void AboveGimbal_init(gimbal_control_t *Gimbal_data_init_f);
+static void Above_gimbal_controlwork(gimbal_control_t *gimbal_task_control);
 
 
 
@@ -42,7 +43,9 @@ void AboveGimbal_TASK(void const * argument)
     AboveGimbal_init(&Abovegimbal_control);
   while(1)
   {
-
+      LEDE4(1);
+     // 云台主控函数 
+    Above_gimbal_controlwork(&Abovegimbal_control);
 
 			//检测周期
 		vTaskDelay(AboveGimbal_CONTROL_TIME);
@@ -115,3 +118,25 @@ static void AboveGimbal_init(gimbal_control_t *Gimbal_data_init_f)
 
 }
 
+
+/**
+  * @brief          上云台主要状态控制函数
+  * @param[in]      none
+  * @retval         none
+  * @attention
+  */
+ static void Above_gimbal_controlwork(gimbal_control_t *gimbal_task_control)
+{
+        // 检查遥控器数值是否正确
+        RC_data_is_error();
+
+        //通过串口三接收并保存MiniPC发来的数据
+        MiniPC_Data_Deal();  //通过串口三接收并保存MiniPC发来的数据
+
+        //发送敌人颜色，p轴角度，射速给视觉
+        MiniPC_Send_Data(1,25,(uint8_t)28);
+}
+VisionStatus_E  get_Enemy_status_from_above(void)
+{
+	return Abovegimbal_control.VisionStatus;
+}

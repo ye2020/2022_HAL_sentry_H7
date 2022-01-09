@@ -7,5 +7,6 @@
         "gimbal_behaviour.h": "c",
         "automatic_strike.h": "c",
         "task_chassis.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
