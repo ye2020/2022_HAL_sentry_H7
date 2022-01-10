@@ -114,6 +114,7 @@
 
 /************电机 传动比*减速比 ***************/
 #define YAW_RATIO      (5*19)         //Yaw轴
+#define ABOVE_YAW_RATIO (1*1)
 #define PITCH_RATIO		 (1.5*19)       //Pitch轴
 #define CHASSIS_RATIO  (1*19)					//底盘电机减速比
 #define Sec_YAW_RATIO  (3*1)          //副Yaw轴

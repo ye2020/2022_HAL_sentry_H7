@@ -25,14 +25,14 @@ gimbal_behaviour_e gimbal_remote_control_Table[3][3] =
 // 上云台遥控状态表
 gimbal_behaviour_e above_gimbal_remote_control_Table[3][3] = 
 {           /*右上*/                     /* 右下 */                          /* 右中 */
-  /*左上*/  {GIMBAL_AUTOCONTROL,         GIMBAL_STANDBY,            GIMBAL_REMOTECONTROL_HIGH_SPEED   },
-  /*左下*/  {GIMBAL_STANDBY,             GIMBAL_STANDBY,            GIMBAL_REMOTECONTROL_STOP_SHOOT   },
-  /*左中*/  {GIMBAL_AUTOATTACK,          GIMBAL_STANDBY,            GIMBAL_REMOTECONTROL_LOW_SPEED    }
+  /*左上*/  {GIMBAL_AUTOCONTROL,         GIMBAL_REMOTECONTROL_HIGH_SPEED,       GIMBAL_STANDBY   },
+  /*左下*/  {GIMBAL_AUTOATTACK,    			 GIMBAL_STANDBY,                        GIMBAL_STANDBY   },
+  /*左中*/  {GIMBAL_STANDBY,      			 GIMBAL_REMOTECONTROL_STOP_SHOOT,       GIMBAL_STANDBY   }
 };    
 
 
 
- float Gimbal_ch2 = 0.0f, Gimbal_ch3 = 0.0f;          // 云台电机受控量 ( ch2为ywa轴控制量，ch3为pitch轴)
+float Gimbal_ch2 = 0.0f, Gimbal_ch3 = 0.0f;          // 云台电机受控量 ( ch2为ywa轴控制量，ch3为pitch轴)
 static Shoot_WorkStatus_e Friction_wheel_mode = STOP_SHOOT; // 火控射速控制量
 static Fire_WorkStatus_e Fire_mode = STOP_FIRE;             // 火控开火模式控制量
 
@@ -300,13 +300,11 @@ float Auto_Pitch_Angle_Target = 0.0f;                   // pitch轴控制量
   * @retval         none
   * @attention
   */
-float avea = 0;
 static void Gimbal_RemoteControl(gimbal_control_t *gimbal_remotecontrol_f)
 {	
-	avea = (gimbal_remotecontrol_f->gimbal_RC->rc.ch[2]) * RC_YAW_SPEED * 0.2f;
-    Gimbal_ch2 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[2]) * RC_YAW_SPEED * 0.2f;     //Y轴位置环量累加   RC_YAW_SPEED
+    Gimbal_ch2 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[0]) * RC_YAW_SPEED * 0.2f;     //Y轴位置环量累加   RC_YAW_SPEED
     Gimbal_ch2 = loop_fp32_constrain(Gimbal_ch2, -180.0f, 180.0f);                         //循环限幅，yaw角度限制     -180~180
-    Gimbal_ch3 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[3]) * RC_PITCH_SPEED * 0.09f;  //P轴位置环量累加  RC_PITCH_SPEED
+    Gimbal_ch3 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[1]) * RC_PITCH_SPEED * 0.09f;  //P轴位置环量累加  RC_PITCH_SPEED
 
     Gimbal_ch3 = float_limit(Gimbal_ch3, PITCH_ANGLE_LIMIT_UP, PITCH_ANGLE_LIMIT_DOWN);   //pitch角度限制   0 ~ -85  (哨兵上负下正)
 

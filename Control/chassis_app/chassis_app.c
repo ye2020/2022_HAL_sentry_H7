@@ -207,3 +207,35 @@ void CAN1_Chassis_yaw_Setmsg(int16_t ESC_208)
 
 }
 
+
+/**
+	* @brief		can1发送函数
+	* @param		传入参数： ESC_201 -> 上云台拨弹电机   ESC_202 -> none   ESC_203 -> 上云台pitch轴电机   ESC_204 -> 上云台yaw轴电机
+	*	@retval		none
+  */
+void CAN1_AboveGimbal_Motor_Setmsg(int16_t ESC_201, int16_t ESC_202, int16_t ESC_203, int16_t ESC_204)
+{
+  uint8_t Data[8];										//发送数据的数组
+
+	Txmessage.Identifier = 0x1ff;												// 发送id
+	Txmessage.IdType     = FDCAN_STANDARD_ID;						// 标识符类型 ,(标准帧)
+	Txmessage.TxFrameType = FDCAN_DATA_FRAME;						// 指定将要传输的消息的帧类型。(数据帧)
+	Txmessage.DataLength  = FDCAN_DLC_BYTES_8;					// 数据长度 ([0,8],12,16,20,24,32,48,64)
+	Txmessage.ErrorStateIndicator = FDCAN_ESI_ACTIVE;		// 指定错误状态指示器。 (发送节点错误活跃)
+	Txmessage.BitRateSwitch = FDCAN_BRS_OFF;   					// 指定发送的Tx帧是带位还是不带位率转换。(位率转换)
+	Txmessage.FDFormat = FDCAN_CLASSIC_CAN;							// 指定Tx帧将以经典或FD格式。(经典)
+	Txmessage.TxEventFifoControl = FDCAN_NO_TX_EVENTS;	// 指定帧开始时捕获的时间戳计数器值传播。(不存储Tx事件)
+	Txmessage.MessageMarker = 0; 				
+
+	Data[0] = (ESC_201 >> 8);
+	Data[1] =  ESC_201;
+	Data[2] = (unsigned char)(0);
+	Data[3] = (unsigned char)(0);
+	Data[4] = (ESC_203>>8);
+	Data[5] =  ESC_203;
+	Data[6] = (ESC_204>>8);
+	Data[7] =  ESC_204;
+	
+	HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &Txmessage, Data);			//将一段数据通过 CAN 总线发送
+	
+}

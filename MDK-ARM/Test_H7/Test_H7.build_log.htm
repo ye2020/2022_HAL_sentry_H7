@@ -17,68 +17,17 @@ Library Manager: ArmAr.exe V5.06 update 7 (build 960)
 Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
 CPU DLL:         SARMCM3.DLL V5.35.0.2
 Dialog DLL:      DCM.DLL V1.17.3.0
-Target DLL:      CMSIS_AGDI.dll V1.33.0.0
+Target DLL:      Segger\JL2CM3.dll V2.99.40.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-d:\workspace\2022_sentryH750_v1.1.3\MDK-ARM\Test_H7.uvprojx
+D:\workspace\2022_sentryH750_v1.1.3\MDK-ARM\Test_H7.uvprojx
 Project File Date:  01/08/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\keil5\ARM\ARMCC\Bin'
 Build target 'Test_H7'
-compiling Task_Safe.c...
-compiling Task_LED.c...
-compiling stm32h7xx_it.c...
-compiling Task_Fire.c...
-compiling Task_Chassis.c...
-..\TASK\Task_Chassis\Task_Chassis.c(377): warning:  #940-D: missing return statement at end of non-void function "automatic_Enemy_color" 
-  }
-..\TASK\Task_Chassis\Task_Chassis.c: 1 warning, 0 errors
-compiling Task_Gimbal.c...
-..\TASK\Task_Gimbal\Task_Gimbal.c(31): warning:  #177-D: variable "pitch_angle_count"  was declared but never referenced
-  static uint16_t pitch_angle_count = 0;				// 计数值，初始化电机码盘用的			
-..\TASK\Task_Gimbal\Task_Gimbal.c: 1 warning, 0 errors
-compiling main.c...
-compiling Task_Detect.c...
-compiling chassis_behaviour.c...
-..\Control\chassis_behaviour\chassis_behaviour.c(188): warning:  #550-D: variable "speed_status_count2"  was set but never used
-  static uint16_t 		  speed_status_count2 = 0;						// 变向时间计时
-..\Control\chassis_behaviour\chassis_behaviour.c(190): warning:  #177-D: variable "chassis_register2"  was declared but never referenced
-  static int32_t 	chassis_register2 = 0;							//速度记录值
-..\Control\chassis_behaviour\chassis_behaviour.c(192): warning:  #177-D: variable "forward_flag"  was declared but never referenced
-  static uint16_t 			forward_flag ,back_flag = 0;					// 随机模式1 强制转向标志位
-..\Control\chassis_behaviour\chassis_behaviour.c(192): warning:  #177-D: variable "back_flag"  was declared but never referenced
-  static uint16_t 			forward_flag ,back_flag = 0;					// 随机模式1 强制转向标志位
-..\Control\chassis_behaviour\chassis_behaviour.c: 4 warnings, 0 errors
-compiling Task_AboveGimbal.c...
-compiling automatic_strike.c...
-compiling CAN_2_Receive.c...
-..\Control\CAN_2_Receive\CAN_2_Receive.c(109): warning:  #188-D: enumerated type mixed with another type
-              Enemy_status = (Rx_Data[7]);
-..\Control\CAN_2_Receive\CAN_2_Receive.c: 1 warning, 0 errors
-compiling gimbal_behaviour.c...
-..\Control\gimbal_behaviour\gimbal_behaviour.c(40): warning:  #177-D: variable "STANDBY_error_count"  was declared but never referenced
-  static uint16_t STANDBY_error_count = 0;										// 遥控通道ch[2],归零时会出现拨杆开关短暂错误
-..\Control\gimbal_behaviour\gimbal_behaviour.c: 1 warning, 0 errors
-compiling chassis_app.c...
-compiling gimbal_app.c...
-compiling CAN_1_Receive.c...
-..\Control\CAN_1_Receive\CAN_1_Receive.c(228): warning:  #186-D: pointless comparison of unsigned integer with zero
-        if (motor_pitch.position >= 0 && motor_pitch.position <= 150)
-..\Control\CAN_1_Receive\CAN_1_Receive.c: 1 warning, 0 errors
-compiling RemoteControl.c...
-..\Control\RemoteControl\RemoteControl.c(356): warning:  #550-D: variable "huart_state"  was set but never used
-  			HAL_StatusTypeDef huart_state;																				// 记录串口接收状态
-..\Control\RemoteControl\RemoteControl.c: 1 warning, 0 errors
-compiling SysInit.c...
-compiling maths.c...
-compiling pid.c...
-compiling rmmotor.c...
-linking...
-Program Size: Code=56632 RO-data=1984 RW-data=368 ZI-data=31272  
-FromELF: creating hex file...
-"Test_H7\Test_H7.axf" - 0 Error(s), 10 Warning(s).
+"Test_H7\Test_H7.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -102,7 +51,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:02:06
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

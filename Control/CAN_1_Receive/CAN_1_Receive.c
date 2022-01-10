@@ -195,6 +195,16 @@ void chassis_can1_callback(FDCAN_HandleTypeDef *hcan)
       motor_Above_pitch.pitch_angle = ((motor_Above_pitch.actual_Position * 360 / (8192) / 1.5 / 19) - 47);
 
     }
+		
+		case CAN_ABOVEGIMBAL_YAW_MOTOR_ID:
+		{
+			motor_Above_yaw.position 					= (uint16_t)((Rx_Data[0] << 8) + Rx_Data[1]);
+			Motor_Actual_Position(&motor_Above_yaw, ABOVE_YAW_RATIO, 8192); //计算yaw电机的真实码盘值
+			motor_Above_yaw.yaw_angle				  = motor_Above_yaw.actual_Position * 360 / 8192 / ABOVE_YAW_RATIO;
+			motor_Above_yaw.speed 				 		= (uint16_t)((Rx_Data[2] << 8) + Rx_Data[3]);
+
+			break;
+		}
     default:
       break;
     }
@@ -293,105 +303,3 @@ void gimbal_can1_callback(FDCAN_HandleTypeDef *hcan)
   }
 }
 
-// void CAN1_chassis_receive(FDCAN_HandleTypeDef *hcan)
-//{
-//   uint8_t appinit = Get_appinit_status(); // 获取初始化情况
-//   FDCAN_RxHeaderTypeDef rx_message;       //接收信息结构体
-
-//  uint8_t Rx_Data[8]; //接收的信息缓存的数组
-
-//  if (HAL_FDCAN_GetRxMessage(&hfdcan1, FDCAN_RX_FIFO0, &rx_message, Rx_Data) == HAL_OK) //读取接收的信息
-//  {
-//    HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0); // 启动中断
-
-//    switch (rx_message.Identifier)
-//    {
-//#if (appinit == CHASSIS_APP) //初始化为底盘板
-//    /*底盘电机*/
-//    case 0x201:
-//    {
-//      motor_chassis[0].position = (uint16_t)((Rx_Data[0] << 8) + Rx_Data[1]);
-//      motor_chassis[0].speed = (uint16_t)((Rx_Data[2] << 8) + Rx_Data[3]);
-//      motor_chassis[0].given_current = (uint16_t)((Rx_Data[4] << 8 | Rx_Data[5]));
-//      motor_chassis[0].temperate = Rx_Data[6];
-
-//      break;
-//    }
-
-//#elif (appinit == GIMBAL_APP)
-//#if (pitch_angle_position == 1) // 使用编码器
-
-//    /* 编码器 */
-//    case 0x01:
-//    {
-
-//      motor_pitch.position = ((uint16_t)(Rx_Data[6] << 24) | (uint16_t)(Rx_Data[5] << 16) | (uint16_t)(Rx_Data[4] << 8) | (uint16_t)(Rx_Data[3]));
-
-//      if (motor_pitch.position >= 0 && motor_pitch.position <= 150)
-//      {
-//        motor_pitch.position += 884;
-//      }
-//      else
-//        motor_pitch.position -= 140;
-//      motor_pitch.actual_Position = motor_pitch.position; //实际值减去中间值
-//      motor_pitch.pitch_angle = -(motor_pitch.actual_Position * 360 / 1024 / PITCH_GR - Pitch_Middle_Angle);
-//      break;
-//    }
-//#endif
-//      /* pitch轴电机 */
-//    case CAN_PIT_MOTOR_ID:
-//    {
-
-//      motor_pitch.speed = (uint16_t)((Rx_Data[2] << 8) | (Rx_Data[3]));
-
-//#if (pitch_angle_position == 0)
-//      motor_pitch.position = (uint16_t)((Rx_Data[0] << 8) | (Rx_Data[1]));
-//      Motor_Actual_Position(&motor_pitch, 1.5 * 19, 8192);
-//      motor_pitch.pitch_angle = ((motor_pitch.actual_Position * 360 / (8192) / 1.5 / 19) - 47);
-
-//#endif
-
-//      break;
-//    }
-
-///* 底盘接收can1云台电机的数据 */
-//#if (gimbal_yaw_TO_chassis == 1)
-//    case 0x208:
-//    {
-//      motor_yaw.position = (uint16_t)((Rx_Data[0] << 8) + Rx_Data[1]);
-//      Motor_Actual_Position(&motor_yaw, YAW_RATIO, 8192); //计算yaw电机的真实码盘值
-//      motor_yaw.yaw_angle = motor_yaw.actual_Position * 360 / 8192 / YAW_RATIO;
-//      motor_yaw.speed = (uint16_t)((Rx_Data[2] << 8) + Rx_Data[3]);
-
-//      break;
-//    }
-
-//#endif
-//      /* 拨弹电机A */
-//    case CAN_TRIGGER_MOTORA_ID:
-//    {
-//      motor_fire_A.position = (uint16_t)((Rx_Data[0] << 8) | (Rx_Data[1]));
-//      Motor_Actual_Position(&motor_fire_A, Sec_YAW_RATIO, 8192);
-//      motor_fire_A.speed = (uint16_t)((Rx_Data[2] << 8) | (Rx_Data[3]));
-
-//      break;
-//    }
-
-//      /* 拨弹电机A */
-//    case CAN_TRIGGER_MOTORB_ID:
-//    {
-//      motor_fire_B.position = (uint16_t)((Rx_Data[0] << 8) | (Rx_Data[1]));
-//      Motor_Actual_Position(&motor_fire_B, Sec_YAW_RATIO, 8192);
-//      motor_fire_B.speed = (uint16_t)((Rx_Data[2] << 8) | (Rx_Data[3]));
-
-//      break;
-//    }
-//#endif
-
-//    default:
-//    {
-//      break;
-//    }
-//    }
-//  }
-//}

@@ -381,7 +381,7 @@ uint8_t back = 0 ,forward = 0 ;
 
  static void Chassis_RemoteControl(chassis_control_t *Chassis_RemoteControl_f)
 {
-    Chassis_ch0 = Chassis_RemoteControl_f->chassis_RC->rc.ch[0];
+    Chassis_ch0 = Chassis_RemoteControl_f->chassis_RC->rc.ch[2];
 		back 		= Get_Laser_Back();
 	  forward = Get_Laser_Forward();
 }

@@ -12,6 +12,7 @@ extern void Chassis_CAN2_Send_Msg(int16_t ESC_201, int16_t ESC_202, int16_t ESC_
 extern void CAN2_Chassis_RC_SetMsg(const RC_ctrl_t *can1_RC_send);
 extern void CAN2_Chassis_YAW_SetMsg(const motor_measure_t *can1_YAW_send);
 extern void CAN1_Chassis_yaw_Setmsg(int16_t ESC_208);
+extern void CAN1_AboveGimbal_Motor_Setmsg(int16_t ESC_201, int16_t ESC_202, int16_t ESC_203, int16_t ESC_204);
 
 
 #endif

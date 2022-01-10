@@ -54,8 +54,8 @@ void Fire_Task(void *pvParameters)
 	while (1)
 	{
 
-		/*  心跳任务 */
-		LEDE4(0);
+//		/*  心跳任务 */
+//		LEDE4(0);
 
 		snail_motor_pwm(1500);
 		/* 允许控制 */
