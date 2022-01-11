@@ -41,19 +41,19 @@ void AboveGimbal_TASK(void const * argument)
 
     // 初始化
     AboveGimbal_init(&Abovegimbal_control);
-  while(1)
+  while(1)											
   {
 		// 心跳任务
       LEDE4(0);
 		
-    // 云台主控函数 
-    Above_gimbal_controlwork(&Abovegimbal_control);
-		
-		// 上云台pitch轴、yaw轴和拨弹电机控制
-		CAN1_AboveGimbal_Motor_Setmsg(Abovegimbal_control.Fire_task_control->GDA_output,
-																	0,
-																	Abovegimbal_control.pitch_c.output,
-																	Abovegimbal_control.yaw_c.output);
+//    // 云台主控函数 
+//    Above_gimbal_controlwork(&Abovegimbal_control);
+////		
+//		// 上云台pitch轴、yaw轴和拨弹电机控制
+//		CAN1_AboveGimbal_Motor_Setmsg(Abovegimbal_control.Fire_task_control->GDA_output,
+//																	0,
+//																	Abovegimbal_control.pitch_c.output,
+//																	Abovegimbal_control.yaw_c.output);
 
 			//检测周期
 		vTaskDelay(AboveGimbal_CONTROL_TIME);
@@ -145,7 +145,7 @@ static void AboveGimbal_init(gimbal_control_t *Gimbal_data_init_f)
         MiniPC_Send_Data(1,25,(uint8_t)28);
 
         //云台模式选择
-        Gimbal_behaviour_mode_set(gimbal_task_control);
+//        Gimbal_behaviour_mode_set(gimbal_task_control);
 }
 
 

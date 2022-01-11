@@ -210,7 +210,7 @@ static void Gimbal_init(gimbal_control_t *Gimbal_data_init_f)
         MiniPC_Send_Data(1,25,(uint8_t)20);
 
         //发送敌人出现状态给底盘板
-        CAN2_Enemy_status(gimbal_task_control->VisionStatus);
+//        CAN2_Enemy_status(gimbal_task_control->VisionStatus);
  
         //云台模式选择
         Gimbal_remote_mode_choose(gimbal_task_control);

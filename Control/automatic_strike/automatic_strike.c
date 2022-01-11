@@ -19,7 +19,7 @@
 
 /************************ 变量 **************************/
 
-#define USART3_RX_LEN   128
+#define USART3_RX_LEN   256
 #define USART3_TX_LEN   32
 
 extern UART_HandleTypeDef huart3;                                     // 串口三句柄
@@ -117,6 +117,8 @@ void USER_UART3_IRQHandler(UART_HandleTypeDef *huart)
 		if(__HAL_UART_GET_FLAG(huart,UART_FLAG_IDLE) == SET)          // 检测是否是空闲中断
 	{
 		  volatile uint32_t num = 0;
+			HAL_StatusTypeDef huart_state;																				// 记录串口接收状态
+
 
 			__HAL_UART_CLEAR_IDLEFLAG(&huart3);		// 清除挂起标准
 			num = huart->Instance->ISR;                                   //清除RXNE标志
@@ -127,11 +129,26 @@ void USER_UART3_IRQHandler(UART_HandleTypeDef *huart)
 			__HAL_DMA_DISABLE(&hdma_usart3_rx);                            // 关闭串口DMA发送通道
 			
 			num = USART3_RX_LEN - __HAL_DMA_GET_COUNTER(&hdma_usart3_rx);  //! 获取DMA中未传输的数据个数，NDTR寄存器分析参考中文参考手册 （DMA_Channel_TypeDef）  这个不同的芯片HAL库里面定义的命名有点不同
-
+			
+		
+			huart_state = HAL_UART_Receive_DMA(&huart3,Usart3_Rx,USART3_RX_LEN);       // 启动DMA
+		
+				if(huart_state != HAL_OK)																							// 判断接收状态，防止溢出
+			{
+				if(huart_state == HAL_BUSY)
+				{
+					__HAL_UART_CLEAR_OREFLAG(huart);																 // 清除溢出中断标志
+					huart->RxState = HAL_UART_STATE_READY;													 // 重置状态位
+					huart->Lock    = HAL_UNLOCKED;																	 // 解锁串口
+					
+					huart_state = HAL_UART_Receive_DMA(&huart3,Usart3_Rx,USART3_RX_LEN); 	//重新开启接收
+					
+				}
+			}
+			
 			fifo_write_buff(pfifo_visual ,Usart3_Rx,num);                // 写入环形队列
 			
 		__HAL_DMA_ENABLE(&hdma_usart3_rx);														// 开启DMA（记得呀 ！！）
-    HAL_UART_Receive_DMA(&huart3,Usart3_Rx,USART3_RX_LEN);       // 启动DMA
 
 	}
 

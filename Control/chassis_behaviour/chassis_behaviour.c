@@ -46,8 +46,16 @@ static uint8_t Get_Laser_Forward(void);
 
 void chassis_behaviour_mode_set(chassis_control_t *chassis_behaviour_f)
 {
-    const char rc_sw1_lift  		        = (chassis_behaviour_f ->chassis_RC ->rc.s[1] - 1);           // 遥控拨杆值减1
-		const char rc_sw2_right 		        = (chassis_behaviour_f ->chassis_RC ->rc.s[0] - 1);           
+     char rc_sw1_lift  		        = (chassis_behaviour_f ->chassis_RC ->rc.s[1] - 1);           // 遥控拨杆值减1
+		 char rc_sw2_right 		        = (chassis_behaviour_f ->chassis_RC ->rc.s[0] - 1);
+	
+
+		if(chassis_behaviour_f ->chassis_RC ->rc.s[1] == 0 || chassis_behaviour_f ->chassis_RC ->rc.s[0] == 0)
+		{
+			rc_sw1_lift = 1;
+			rc_sw2_right = 1;
+		}
+	
     chassis_behaviour_f ->chassis_mode  = chassis_remote_control_Table[rc_sw1_lift][rc_sw2_right];    // 获取当前底盘状态
 
     /* 获取遥控数值并选择模式 */
@@ -381,7 +389,7 @@ uint8_t back = 0 ,forward = 0 ;
 
  static void Chassis_RemoteControl(chassis_control_t *Chassis_RemoteControl_f)
 {
-    Chassis_ch0 = Chassis_RemoteControl_f->chassis_RC->rc.ch[2];
+    Chassis_ch0 = Chassis_RemoteControl_f->chassis_RC->rc.ch[0];
 		back 		= Get_Laser_Back();
 	  forward = Get_Laser_Forward();
 }
