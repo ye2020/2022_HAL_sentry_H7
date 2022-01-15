@@ -19,8 +19,8 @@
 /**************** 变量 *******************/ 
 
 //申明主云台变量
-gimbal_control_t gimbal_control;
 
+gimbal_control_t gimbal_control;
 #if (PITCH_PID_MODE == 1)
 static float Last_ch3 = 0;
 static float Now_ch3 = 0;

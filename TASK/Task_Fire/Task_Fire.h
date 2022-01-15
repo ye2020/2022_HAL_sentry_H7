@@ -22,8 +22,8 @@
 
 /**********发弹系统速度设定**********/
 //低射速：约15m/s （测试用）  高射速：约28m/s(比赛用)
-#define FRICTION_THREE_SHOOT_SPEED   1070//(2000 - 1160) 	//30摩擦轮高速pwm			1205 -> 22.5m/s     (1243)
-#define FRICTION_ONE_SHOOT_SPEED   	 1033///(2000- 1140)   //18摩擦轮高速pwm		原1173  13.5m/s			（1187）
+#define FRICTION_THREE_SHOOT_SPEED   1210//(2000 - 1160) 	//30摩擦轮高速pwm			1205 -> 22.5m/s     (1243)
+#define FRICTION_ONE_SHOOT_SPEED   	 1150///(2000- 1140)   //18摩擦轮高速pwm		原1173  13.5m/s			（1187）
 #define FRICTION_SHOOT_STOP          900//(2000 - 880) 	   //0摩擦轮停止pwm
 #define LOADING_SPEED        (-3300)    //供弹电机速度  //5.2 2000调整为2900
 

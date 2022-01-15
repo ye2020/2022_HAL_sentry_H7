@@ -20,6 +20,7 @@
 #include "CAN_1_Receive.h"
 #include "pid.h"
 #include "maths.h"
+#include "Task_Gimbal.h"
 
 /******************************  宏定义 ****************************************/
 /*OS控制任务周期以及启动时间*/
@@ -118,6 +119,7 @@ typedef struct
 //	
     motor_measure_t *yaw_motor_measure;      //can1直接接收的yaw轴数据 （用于发给云台处理）
     motor_measure_t *chassis_motor_measure;
+   const gimbal_control_t *Abovegimbal_motor_c;  // 上云台电机变量
 
 //    PowerLimit_t Chassis_PowerLimit; //底盘功率限制结构体
     Motor_t chassis_motor[4];        //底盘电机数据(包含电机统一结构体指针)

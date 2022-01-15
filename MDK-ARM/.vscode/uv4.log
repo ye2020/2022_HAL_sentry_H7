@@ -1,11 +1,4 @@
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\keil5\ARM\ARMCC\Bin'
 Build target 'Test_H7'
-compiling gimbal_behaviour.c...
-..\Control\gimbal_behaviour\gimbal_behaviour.c(40): warning:  #177-D: variable "STANDBY_error_count"  was declared but never referenced
-  static uint16_t STANDBY_error_count = 0;										// 遥控通道ch[2],归零时会出现拨杆开关短暂错误
-..\Control\gimbal_behaviour\gimbal_behaviour.c: 1 warning, 0 errors
-linking...
-Program Size: Code=56600 RO-data=1984 RW-data=364 ZI-data=31268  
-FromELF: creating hex file...
-"Test_H7\Test_H7.axf" - 0 Error(s), 1 Warning(s).
-Build Time Elapsed:  00:00:06
+"Test_H7\Test_H7.axf" - 0 Error(s), 0 Warning(s).
+Build Time Elapsed:  00:00:04

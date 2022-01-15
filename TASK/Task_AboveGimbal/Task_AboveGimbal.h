@@ -61,6 +61,8 @@
 
 extern void AboveGimbal_TASK(void const * argument);
 extern VisionStatus_E  get_Enemy_status_from_above(void);
+extern const gimbal_control_t *Get_AboveGimbal_Control_Measure_Point(void);
+
 
 
 #endif

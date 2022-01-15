@@ -160,3 +160,15 @@ VisionStatus_E  get_Enemy_status_from_above(void)
 {
 	return Abovegimbal_control.VisionStatus;
 }
+
+
+/**
+  * @brief          返回上云台控制变量
+  * @param[in]      none
+  * @retval         none
+  * @attention
+  */
+const gimbal_control_t *Get_AboveGimbal_Control_Measure_Point(void)
+{
+  return &Abovegimbal_control;
+}

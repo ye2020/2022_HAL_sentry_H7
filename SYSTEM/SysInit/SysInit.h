@@ -88,7 +88,7 @@
 /***************************** 各限制选择 *************************************/
 
 #define pitch_angle_position  0   // p轴使用编码器    		0 -> 不使用  1 -> 使用
-#define chassis_using		      1   // 底盘运动         		0 -> 不使用  1 -> 使用
+#define chassis_using		      0   // 底盘运动         		0 -> 不使用  1 -> 使用
 #define hot_limit             0   // 热量限制         		0 -> 不使用  1 -> 使用
 #define yaw_angle_limit       1		// yaw 轴角度限制				0 -> 不限制  1 -> 限制
 #define double_buffer 				0 	// 遥控使用双缓冲区			0 -> 不使用	 1 -> 使用

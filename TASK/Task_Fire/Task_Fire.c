@@ -57,7 +57,6 @@ void Fire_Task(void *pvParameters)
 //		/*  心跳任务 */
 //		LEDE4(0);
 
-		snail_motor_pwm(1500);
 		/* 允许控制 */
 		if (Return_gimbal_mode() != GIMBAL_STANDBY && Return_gimbal_mode() != GIMBAL_STOP)
 		{
@@ -67,7 +66,6 @@ void Fire_Task(void *pvParameters)
 		else // 不允许控制
 		{
 			snail_motor_pwm(FRICTION_SHOOT_STOP); // 摩擦轮停止
-
 			Fire_param.GDA_output = 0;
 			Fire_param.GDB_output = 0;
 		}
@@ -119,8 +117,8 @@ void shoot_hot_limit(void)
 static void snail_motor_pwm(uint32_t snial_pwm)
 {
 #if (REVERES_LIGHT_COUPLING == 1)
-	if ((snial_pwm >= 600) && (snial_pwm <= 1600))
-		PWM_Shoot_Upper_Left = PWM_Shoot_Lower_Left = PWM_Shoot_Upper_Right = PWM_Shoot_Lower_Right = 2000 - snial_pwm;
+//	if ((snial_pwm >= 600) && (snial_pwm <= 1600))
+		PWM_Shoot_Upper_Left = PWM_Shoot_Lower_Left = PWM_Shoot_Upper_Right = PWM_Shoot_Lower_Right = 2100 - snial_pwm;//2000
 #else
 	if ((snial_pwm >= 600) && (snial_pwm) <= 1600)
 		PWM_Shoot_Upper_Left = PWM_Shoot_Lower_Left = PWM_Shoot_Upper_Right = PWM_Shoot_Lower_Right = snial_pwm;
@@ -227,7 +225,7 @@ static void Fire_Control(void)
 	else if (Fire_param.fire_workstatus == BACK)
 	{
 		Fire_param.GDA_output = Rmmotor_Speed_control(&Fire_param.fire_s_pid, -LOADING_SPEED, Fire_param.fire_motorA_measure->speed, M2006_MAX_OUTPUT_CURRENT);
-		Fire_param.GDB_output = Rmmotor_Speed_control(&Fire_param.fire_s_pid, LOADING_SPEED, Fire_param.fire_motorB_measure->speed, M2006_MAX_OUTPUT_CURRENT);
+		Fire_param.GDB_output = Rmmotor_Speed_control(&Fire_param.fire_s_pid, -LOADING_SPEED, Fire_param.fire_motorB_measure->speed, M2006_MAX_OUTPUT_CURRENT);
 	}
 
 	else

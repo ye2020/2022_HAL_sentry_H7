@@ -244,8 +244,7 @@ void MiniPC_Send_Data(uint8_t data, uint8_t moauto_pitch_anglede, uint8_t shoot_
 *功能：通过串口三接收并保存MiniPC发来的数据
 *输入：无
 *输出：无
-*/
-   
+*/ 
 void MiniPC_Data_Deal(void) 
 {
 		uint8_t buff_read[32];

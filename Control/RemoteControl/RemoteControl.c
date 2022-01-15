@@ -324,7 +324,7 @@ void RC_Init(uint8_t *rx1_buf, uint8_t *rx2_buf, uint16_t dma_buf_num)
     __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
 
     //设置DMA传输，讲串口1的数据搬运到recvive_buff中
-//    HAL_UART_Receive_DMA(&huart1, sbus_rx_buf[1], 36 );
+//    HAL_UART_Receive_DMA(&huart1, sbus_rx_buf[1], USART1_RX_LEN );
 			HAL_UART_Receive_IT(&huart1, Usart1_Rx, USART1_RX_LEN);
 
 	    if (fifo_init(&fifo_usart1_rx, Usart1_Rx_Buffer, USART1_RX_LEN) == -1)
@@ -353,7 +353,8 @@ void RC_unable(void)
 void USER_UART_IRQHandler(UART_HandleTypeDef *huart)
 {
 	   volatile uint32_t num = 0;
-			HAL_StatusTypeDef huart_state;																				// 记录串口接收状态
+	    HAL_StatusTypeDef huart_state;			// 记录串口接收状态
+        
 	if(__HAL_UART_GET_FLAG(huart,UART_FLAG_RXNE) == RESET)	//接收到数据
     {
         __HAL_UART_CLEAR_PEFLAG(&huart1);
@@ -362,7 +363,8 @@ void USER_UART_IRQHandler(UART_HandleTypeDef *huart)
     {
 			__HAL_UART_CLEAR_IDLEFLAG(&huart1);
 		}
-
+		
+//			HAL_UART_Receive_DMA(&huart1, sbus_rx_buf[1], 32 );
 		huart_state =	HAL_UART_Receive_IT(&huart1, Usart1_Rx, 32 );//用串口接收遥控数据
 
 		fifo_write_buff(&fifo_usart1_rx, Usart1_Rx, 32);				// 写入环形队列	
@@ -435,7 +437,7 @@ void USER_UART_IRQHandler(UART_HandleTypeDef *huart)
             //失效DMA
             __HAL_DMA_DISABLE(&hdma_usart1_rx);
 
-            							SCB_InvalidateDCache_by_Addr (sbus_rx_buf[1],SBUS_RX_BUF_NUM);
+            SCB_InvalidateDCache_by_Addr (sbus_rx_buf[1],SBUS_RX_BUF_NUM);
 
             //获取接收数据长度,长度 = 设定长度 - 剩余长度
             this_time_rx_len = SBUS_RX_BUF_NUM -  ( __HAL_DMA_GET_COUNTER(&hdma_usart1_rx));//((DMA_Stream_TypeDef   *)hdma_usart1_rx.Instance)->NDTR;

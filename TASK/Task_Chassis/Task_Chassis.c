@@ -49,14 +49,22 @@ void Chassis_Task(void const * argument)
       chassis_controlwork(&chassis_control);
 
 
-   #if chassis_using
+   #if (chassis_using)
 			LEDE2(0);
     // 底盘发送电流值
       Chassis_CAN_Send_Msg(chassis_control.chassis_motor[0].output,
 													 chassis_control.chassis_motor[1].output,
 													 chassis_control.chassis_motor[2].output,
 													 chassis_control.chassis_motor[3].output  );	
+			CAN1_AboveGimbal_Motor_Setmsg(5000,0,0,0);
   #endif
+
+//    // 上云台pitch轴、yaw轴和拨弹电机控制
+//    CAN1_AboveGimbal_Motor_Setmsg(chassis_control.Abovegimbal_motor_c ->Fire_task_control->GDA_output,
+//																	0,
+//																	chassis_control.Abovegimbal_motor_c ->pitch_c.output,
+//																	chassis_control.Abovegimbal_motor_c ->yaw_c.output
+//																	);
 
   #if (gimbal_yaw_TO_chassis == 1)
     
@@ -129,6 +137,8 @@ static void chassis_init(chassis_control_t *chassis_move_init_f)
             chassis_move_init_f->chassis_motor[i].chassis_motor_measure = get_Chassis_Motor_Measure_Point(i);
         }
 
+      // 返回上云台控制变量
+      chassis_move_init_f->Abovegimbal_motor_c = Get_AboveGimbal_Control_Measure_Point();
            
       #if (gimbal_yaw_TO_chassis == 1)
       // yaw轴数据 （用来发送给底盘计算）

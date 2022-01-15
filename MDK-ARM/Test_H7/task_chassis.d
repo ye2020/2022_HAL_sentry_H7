@@ -47,12 +47,12 @@ test_h7\task_chassis.o: ../Core/Inc/usart.h
 test_h7\task_chassis.o: ..\Control\CAN_1_Receive\CAN_1_Receive.h
 test_h7\task_chassis.o: ..\ALGORITHM\pid\pid.h
 test_h7\task_chassis.o: ..\ALGORITHM\maths\maths.h
-test_h7\task_chassis.o: ..\SYSTEM\SysInit\SysInit.h
-test_h7\task_chassis.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
-test_h7\task_chassis.o: F:\keil5\ARM\ARMCC\Bin\..\include\string.h
 test_h7\task_chassis.o: ..\TASK\Task_Gimbal\Task_Gimbal.h
 test_h7\task_chassis.o: ..\Control\automatic_strike\automatic_strike.h
 test_h7\task_chassis.o: ..\TASK\Task_Fire\Task_Fire.h
+test_h7\task_chassis.o: ..\SYSTEM\SysInit\SysInit.h
+test_h7\task_chassis.o: F:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+test_h7\task_chassis.o: F:\keil5\ARM\ARMCC\Bin\..\include\string.h
 test_h7\task_chassis.o: ..\TASK\Task_AboveGimbal\Task_AboveGimbal.h
 test_h7\task_chassis.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/freertos.h
 test_h7\task_chassis.o: ../Core/Inc/FreeRTOSConfig.h
