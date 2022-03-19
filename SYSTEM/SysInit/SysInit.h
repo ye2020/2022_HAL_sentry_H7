@@ -95,8 +95,9 @@
 #define SFUD_NORFLASH					0		// flash初始化及使能		0 -> 不使能  1 -> 使能
 #define MiniPC_DMA						1		// 小电脑用DMA通信			0 -> 不使用	 1 ->	使用
 #define Debug_mode						0		// 调试模式							0 -> 不开启	 1 -> 开启
+#define Pitch_6020						1		// pitch 轴使用6020     0 -> 不使用	 1 ->	使用
 /*****各机器人的云台中值(如果用到编码器校准，目前2020赛季步兵P轴用到编码器初始化)******/
-#define Pitch_Middle_Angle  170 //哨兵50   -8  -82     42  -32  74
+#define Pitch_Middle_Angle  (-45)//170 //哨兵50   -8  -82     42  -32  74
 #define Pitch_UP_Angle      190  //	
 
 

@@ -47,27 +47,28 @@ void GIMBAL_TASK(void const * argument)
 
 	while(1)
 	{
-		if (pitch_angle_init_flag == 0 )
-			gimbal_pitch_init();
+//		if (pitch_angle_init_flag == 0 )
+//			gimbal_pitch_init();
 		
 		/* 心跳任务 */
 		LEDE3(0);
 
     // 云台主要控制函数
     gimbal_controlwork(&gimbal_control);
+		
 
 		        /* 进行pitch轴3508电机和两个拨弹电机的控制 两个拨弹为- +*/
 		CAN1_Gimbal_Fire(gimbal_control.Fire_task_control->GDA_output,
 										 gimbal_control.Fire_task_control->GDB_output,
 										 gimbal_control.pitch_c.output,
 										 0); 
-		
-						/* 进行yaw轴3508电机控制 */
-    #if (gimbal_yaw_TO_chassis == 2)        
-		CAN2_yaw_Setmsg(gimbal_control.yaw_c.output);               // 直接发电调
-    #elif (gimbal_yaw_TO_chassis == 1)
-    CAN2_Gimbal_yaw_Setmsg(gimbal_control.yaw_c.output);        // 发底盘，由底盘can1发电调
-    #endif
+//////		
+//						/* 进行yaw轴3508电机控制 */
+//    #if (gimbal_yaw_TO_chassis == 2)        
+//		CAN2_yaw_Setmsg(gimbal_control.yaw_c.output);               // 直接发电调
+//    #elif (gimbal_yaw_TO_chassis == 1)
+//    CAN2_Gimbal_yaw_Setmsg(gimbal_control.yaw_c.output);        // 发底盘，由底盘can1发电调
+//    #endif
 		
 	
 		vTaskDelay(GIMBAL_CONTROL_TIME_MS); //系统延时

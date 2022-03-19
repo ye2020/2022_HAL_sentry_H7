@@ -29,9 +29,9 @@ static uint8_t Get_Laser_Forward(void);
  //底盘遥控选择状态表
  Chassis_mode_e chassis_remote_control_Table[RC_SW1_lift][RC_SW2_right] = 
 {           /*右上*/                     /* 右下 */                          /* 右中 */
-  /*左上*/  {CHASSIS_AUTO,              CHASSIS_REMOTECONTROL,             CHASSIS_REMOTECONTROL},
-  /*左下*/  {CHASSIS_AUTO,     			CHASSIS_STANDBY,             	   CHASSIS_REMOTECONTROL},
-  /*左中*/  {CHASSIS_AUTO,              CHASSIS_REMOTECONTROL,             CHASSIS_REMOTECONTROL}
+  /*左上*/  {CHASSIS_AUTO,              CHASSIS_STANDBY,             CHASSIS_REMOTECONTROL},
+  /*左下*/  {CHASSIS_STANDBY,     			CHASSIS_STANDBY,             CHASSIS_REMOTECONTROL},
+  /*左中*/  {CHASSIS_AUTO,              CHASSIS_STANDBY,             CHASSIS_REMOTECONTROL}
 };           
 
 
@@ -158,7 +158,7 @@ static void Chassis_Auto(chassis_control_t *Chassis_Auto_f)
 
      else if(outpost_HP < 10) 
      {
-       if((get_Enemy_status() == Enemy_Disappear) && (get_Enemy_status_from_above() == Enemy_Disappear))          // 敌人未出现
+       if(get_Enemy_status() == Enemy_Disappear)         // 敌人未出现 // && (get_Enemy_status_from_above() == Enemy_Disappear)
        {
           Chassis_Blocking(Chassis_Auto_f);             // 走位模式（控制方向和速度）
 
@@ -172,7 +172,7 @@ static void Chassis_Auto(chassis_control_t *Chassis_Auto_f)
             } 
        }
 
-       else if((get_Enemy_status() == Enemy_Appear) || (get_Enemy_status_from_above() == Enemy_Appear))
+       else if(get_Enemy_status() == Enemy_Appear) 		// || (get_Enemy_status_from_above() == Enemy_Appear)
        {
           Chassis_ch2 = CHASSIS_AUTO_SLOW_SPPED;
 

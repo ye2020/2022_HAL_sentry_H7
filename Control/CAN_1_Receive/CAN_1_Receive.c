@@ -192,7 +192,7 @@ void chassis_can1_callback(FDCAN_HandleTypeDef *hcan)
       motor_Above_pitch.speed = (uint16_t)((Rx_Data[2] << 8) | (Rx_Data[3]));
       motor_Above_pitch.position = (uint16_t)((Rx_Data[0] << 8) | (Rx_Data[1]));
       Motor_Actual_Position(&motor_Above_pitch,1,8192);
-      motor_Above_pitch.pitch_angle = ((motor_Above_pitch.actual_Position * 360 / (8192) / 1.5 / 19) - 47);
+      motor_Above_pitch.pitch_angle = ((motor_Above_pitch.actual_Position * 360 / (8192) / 1.5) - 47);
 
     }
 		
@@ -251,13 +251,19 @@ void gimbal_can1_callback(FDCAN_HandleTypeDef *hcan)
     {
 
       motor_pitch.speed = (uint16_t)((Rx_Data[2] << 8) | (Rx_Data[3]));
-
-#if (pitch_angle_position == 0)
-      motor_pitch.position = (uint16_t)((Rx_Data[0] << 8) | (Rx_Data[1]));
-      Motor_Actual_Position(&motor_pitch, 1.5 * 19, 8192);
-      motor_pitch.pitch_angle = ((motor_pitch.actual_Position * 360 / (8192) / 1.5 / 19) - 47);
-
+			
+#if (!Pitch_6020)
+	#if (pitch_angle_position == 0)
+				motor_pitch.position = (uint16_t)((Rx_Data[0] << 8) | (Rx_Data[1]));
+				Motor_Actual_Position(&motor_pitch, 1.5 * 19, 8192);
+				motor_pitch.pitch_angle = ((motor_pitch.actual_Position * 360 / (8192) / 1.5 / 19) - 47);
+	#endif
+#elif(Pitch_6020)			
+				motor_pitch.position = (uint16_t)((Rx_Data[0] << 8) | (Rx_Data[1]));
+				Motor_Actual_Position(&motor_pitch, 1, 8192);
+				motor_pitch.pitch_angle = ((motor_pitch.actual_Position * 360 / (8192) / 1) - Pitch_Middle_Angle);
 #endif
+			
 
       break;
     }

@@ -65,11 +65,10 @@ void Gimbal_behaviour_mode_set(gimbal_control_t *fir_gimbal_behaviour_f)
 				rc_sw2_right = 1;
 			}	
 			
-	
-    if(Get_appinit_status() == GIMBAL_APP)          
+//    if(Get_appinit_status() == GIMBAL_APP)          
     fir_gimbal_behaviour_f->gimbal_behaviour = gimbal_remote_control_Table[rc_sw1_lift][rc_sw2_right];
-    else if(Get_appinit_status() == CHASSIS_APP)
-    fir_gimbal_behaviour_f->gimbal_behaviour = above_gimbal_remote_control_Table[rc_sw1_lift][rc_sw2_right];
+//    else if(Get_appinit_status() == CHASSIS_APP)
+//    fir_gimbal_behaviour_f->gimbal_behaviour = above_gimbal_remote_control_Table[rc_sw1_lift][rc_sw2_right];
 
     switch (fir_gimbal_behaviour_f->gimbal_behaviour)
     {
@@ -82,13 +81,9 @@ void Gimbal_behaviour_mode_set(gimbal_control_t *fir_gimbal_behaviour_f)
       /*  初始化 */
       case GIMBAL_STANDBY:
       {
-//				if((rc_sw1_lift != 1 && rc_sw2_right != 1) || STANDBY_error_count >= 5)   // 遥控通道ch[2],归零时会出现拨杆开关短暂错误，导致s1，s2会突然变成2
-//				{																																					// 未查明原因，此处为一个治标不治本的补丁
 					Gimbal_Stop(fir_gimbal_behaviour_f);                       //停止
 					Remote_reload();                                           //摇杆量清零
-//				}
-//				else STANDBY_error_count++;
-        break;
+					break;
       }
       /* 自瞄模式 */
       case GIMBAL_AUTOATTACK:
@@ -141,9 +136,7 @@ void Gimbal_behaviour_mode_set(gimbal_control_t *fir_gimbal_behaviour_f)
     default:
       break;
     }
-		
-//		if(fir_gimbal_behaviour_f->gimbal_behaviour != GIMBAL_STANDBY)
-//			STANDBY_error_count = 0;
+
 }
 
 
@@ -163,7 +156,7 @@ void Gimbal_Auto(gimbal_control_t *gimbal_auto_f)
     }
 
     /*云台视觉控制量*/    //(y轴，p轴还没用卡尔曼)    
-    gimbal_auto_f ->auto_c ->pitch_control_data = gimbal_auto_f->auto_c->auto_pitch_angle * 4.0f;
+    gimbal_auto_f ->auto_c ->pitch_control_data = -(gimbal_auto_f->auto_c->auto_pitch_angle * 4.0f);				// 6020pitch 轴码盘值与3508相反，控制量取负，后期再优化
     gimbal_auto_f->auto_c->yaw_control_data     = gimbal_auto_f->auto_c->auto_yaw_angle * 4.0f;
 
     /* 限幅 pitch轴yaw轴角度限制 */
@@ -311,7 +304,7 @@ static void Gimbal_RemoteControl(gimbal_control_t *gimbal_remotecontrol_f)
 {	
     Gimbal_ch2 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[2]) * RC_YAW_SPEED * 0.2f;     //Y轴位置环量累加   RC_YAW_SPEED
     Gimbal_ch2 = loop_fp32_constrain(Gimbal_ch2, -180.0f, 180.0f);                         //循环限幅，yaw角度限制     -180~180
-    Gimbal_ch3 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[3]) * RC_PITCH_SPEED * 0.09f;  //P轴位置环量累加  RC_PITCH_SPEED
+    Gimbal_ch3 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[3]) * RC_PITCH_SPEED * (-0.09f);  //P轴位置环量累加  RC_PITCH_SPEED
 
     Gimbal_ch3 = float_limit(Gimbal_ch3, PITCH_ANGLE_LIMIT_UP, PITCH_ANGLE_LIMIT_DOWN);   //pitch角度限制   0 ~ -85  (哨兵上负下正)
 

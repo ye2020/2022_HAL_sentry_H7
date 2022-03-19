@@ -245,10 +245,10 @@ static void sbus_to_rc(volatile const uint8_t *sbus_buf, RC_ctrl_t *rc_ctrl)
     rc_ctrl->rc.ch[3] -= RC_CH_VALUE_OFFSET;
     rc_ctrl->rc.ch[4] -= RC_CH_VALUE_OFFSET;
 		
-		rc_ctrl->rc.ch[0] = rc_deadline_limit(rc_ctrl->rc.ch[0], 5); //死区限制
-    rc_ctrl->rc.ch[1] = rc_deadline_limit(rc_ctrl->rc.ch[1], 5); //死区限制
-    rc_ctrl->rc.ch[2] = rc_deadline_limit(rc_ctrl->rc.ch[2], 5); //死区限制
-    rc_ctrl->rc.ch[3] = rc_deadline_limit(rc_ctrl->rc.ch[3], 5); //死区限制
+		rc_ctrl->rc.ch[0] = rc_deadline_limit(rc_ctrl->rc.ch[0], 15); //死区限制
+    rc_ctrl->rc.ch[1] = rc_deadline_limit(rc_ctrl->rc.ch[1], 15); //死区限制
+    rc_ctrl->rc.ch[2] = rc_deadline_limit(rc_ctrl->rc.ch[2], 15); //死区限制
+    rc_ctrl->rc.ch[3] = rc_deadline_limit(rc_ctrl->rc.ch[3], 15); //死区限制
 		
 		
 
