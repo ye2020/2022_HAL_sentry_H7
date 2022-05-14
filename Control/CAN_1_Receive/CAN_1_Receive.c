@@ -261,7 +261,7 @@ void gimbal_can1_callback(FDCAN_HandleTypeDef *hcan)
 #elif(Pitch_6020)			
 				motor_pitch.position = (uint16_t)((Rx_Data[0] << 8) | (Rx_Data[1]));
 				Motor_Actual_Position(&motor_pitch, 1, 8192);
-				motor_pitch.pitch_angle = ((motor_pitch.actual_Position * 360 / (8192) / 1) - Pitch_Middle_Angle);
+				motor_pitch.pitch_angle = ((motor_pitch.actual_Position * 360 / (8192) / 1.5 / 1) - Pitch_Middle_Angle);
 #endif
 			
 

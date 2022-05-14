@@ -74,12 +74,16 @@ test_h7\rmmotor.o: ../Core/Inc/dma.h
 test_h7\rmmotor.o: ../Core/Inc/gpio.h
 test_h7\rmmotor.o: ..\SYSTEM\bsp_usart2\bsp_usart2.h
 test_h7\rmmotor.o: ..\SYSTEM\FIFO_BUFF\fifo_buff.h
+test_h7\rmmotor.o: ..\SYSTEM\bsp_bwt\bsp_dwt.h
+test_h7\rmmotor.o: ..\SYSTEM\myiic\myiic.h
+test_h7\rmmotor.o: ..\SYSTEM\words\words.h
 test_h7\rmmotor.o: ..\Control\CAN_2_Receive\CAN_2_Receive.h
 test_h7\rmmotor.o: ..\Control\FDCAN_Receive\FDCAN_Receive.h
 test_h7\rmmotor.o: ..\Control\chassis_app\chassis_app.h
 test_h7\rmmotor.o: ..\Control\gimbal_app\gimbal_app.h
 test_h7\rmmotor.o: ..\Control\chassis_behaviour\chassis_behaviour.h
 test_h7\rmmotor.o: ..\Control\gimbal_behaviour\gimbal_behaviour.h
+test_h7\rmmotor.o: ..\Control\OLED\OLED.h
 test_h7\rmmotor.o: ..\ALGORITHM\math_filter\filter.h
 test_h7\rmmotor.o: ..\REFEREE\RefereeDeal.h
 test_h7\rmmotor.o: ..\components\SFUD\inc\sfud.h

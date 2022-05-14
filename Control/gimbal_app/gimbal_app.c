@@ -56,6 +56,10 @@ void gimbal_app_init(void)
 
   osThreadDef(GIMBALTASK, GIMBAL_TASK, osPriorityRealtime, 0, 200);
   GIMBALTASKHandle = osThreadCreate(osThread(GIMBALTASK), NULL);
+	
+	/* OLEDœ‘ æ */
+	OLED_DisplayString(0,0,16,16,(const uint8_t *)"Sentry Gimbal");
+
 
 }
 

@@ -74,12 +74,16 @@ test_h7\task_led.o: ../Core/Inc/dma.h
 test_h7\task_led.o: ../Core/Inc/gpio.h
 test_h7\task_led.o: ..\SYSTEM\bsp_usart2\bsp_usart2.h
 test_h7\task_led.o: ..\SYSTEM\FIFO_BUFF\fifo_buff.h
+test_h7\task_led.o: ..\SYSTEM\bsp_bwt\bsp_dwt.h
+test_h7\task_led.o: ..\SYSTEM\myiic\myiic.h
+test_h7\task_led.o: ..\SYSTEM\words\words.h
 test_h7\task_led.o: ..\Control\CAN_2_Receive\CAN_2_Receive.h
 test_h7\task_led.o: ..\Control\FDCAN_Receive\FDCAN_Receive.h
 test_h7\task_led.o: ..\Control\chassis_app\chassis_app.h
 test_h7\task_led.o: ..\Control\gimbal_app\gimbal_app.h
 test_h7\task_led.o: ..\Control\chassis_behaviour\chassis_behaviour.h
 test_h7\task_led.o: ..\Control\gimbal_behaviour\gimbal_behaviour.h
+test_h7\task_led.o: ..\Control\OLED\OLED.h
 test_h7\task_led.o: ..\ALGORITHM\rmmotor\rmmotor.h
 test_h7\task_led.o: ..\ALGORITHM\math_filter\filter.h
 test_h7\task_led.o: ..\REFEREE\RefereeDeal.h

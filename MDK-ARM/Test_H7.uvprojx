@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H750xx,STM32_THREAD_SAFE_STRATEGY=4</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;   ../Drivers/STM32H7xx_HAL_Driver/Inc;   ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;   ../Drivers/CMSIS/Device/ST/STM32H7xx/Include;   ../Drivers/CMSIS/Include;   ..\components\SFUD\src;   ..\components\SFUD\port;   ..\components\SFUD\inc;   ..\Control\FDCAN_Receive;   ../Middlewares/Third_Party/FreeRTOS/Source/include;   ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;   ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;   ..\TASK\Task_Detect;   ..\TASK\Task_Fire;   ..\TASK\Task_Led;   ..\TASK\Task_Safe;   ..\SYSTEM\SysInit;   ..\Control\chassis_app;   ..\Control\gimbal_app;   ..\TASK\Task_Chassis;   ..\TASK\Task_Gimbal;   ..\SYSTEM\bsp_usart2;   ..\SYSTEM\FIFO_BUFF;   ..\Control\automatic_strike;   ..\Control\CAN_1_Receive;   ..\Control\CAN_2_Receive;   ..\Control\chassis_behaviour;   ..\Control\gimbal_behaviour;   ..\Control\RemoteControl;   ..\ALGORITHM\math_filter;   ..\ALGORITHM\list_of_function;   ..\ALGORITHM\maths;   ..\ALGORITHM\pid;   ..\ALGORITHM\rmmotor;   ..\REFEREE;   ..\TASK\Task_AboveGimbal</IncludePath>
+              <IncludePath>../Core/Inc; ../Drivers/STM32H7xx_HAL_Driver/Inc; ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy; ../Drivers/CMSIS/Device/ST/STM32H7xx/Include; ../Drivers/CMSIS/Include; ..\components\SFUD\src; ..\components\SFUD\port; ..\components\SFUD\inc; ..\Control\FDCAN_Receive; ../Middlewares/Third_Party/FreeRTOS/Source/include; ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS; ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F; ..\TASK\Task_Detect; ..\TASK\Task_Fire; ..\TASK\Task_Led; ..\TASK\Task_Safe; ..\SYSTEM\SysInit; ..\Control\chassis_app; ..\Control\gimbal_app; ..\TASK\Task_Chassis; ..\TASK\Task_Gimbal; ..\SYSTEM\bsp_usart2; ..\SYSTEM\FIFO_BUFF; ..\Control\automatic_strike; ..\Control\CAN_1_Receive; ..\Control\CAN_2_Receive; ..\Control\chassis_behaviour; ..\Control\gimbal_behaviour; ..\Control\RemoteControl; ..\ALGORITHM\math_filter; ..\ALGORITHM\list_of_function; ..\ALGORITHM\maths; ..\ALGORITHM\pid; ..\ALGORITHM\rmmotor; ..\REFEREE; ..\TASK\Task_AboveGimbal; ..\SYSTEM\bsp_bwt; ..\SYSTEM\myiic; ..\SYSTEM\words; ..\Control\OLED</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2112,6 +2112,11 @@
               <FileType>1</FileType>
               <FilePath>..\Control\RemoteControl\RemoteControl.c</FilePath>
             </File>
+            <File>
+              <FileName>OLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control\OLED\OLED.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2161,6 +2166,21 @@
               <FileName>fifo_buff.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\FIFO_BUFF\fifo_buff.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_dwt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SYSTEM\bsp_bwt\bsp_dwt.c</FilePath>
+            </File>
+            <File>
+              <FileName>myiic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SYSTEM\myiic\myiic.c</FilePath>
+            </File>
+            <File>
+              <FileName>words.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SYSTEM\words\words.c</FilePath>
             </File>
           </Files>
         </Group>

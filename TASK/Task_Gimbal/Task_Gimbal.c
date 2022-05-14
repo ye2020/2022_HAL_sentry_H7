@@ -29,6 +29,22 @@ static float Now_ch3 = 0;
 
 static uint16_t pitch_angle_init_flag = 0;		// 标志位，初始化电机码盘用的
 static uint16_t pitch_angle_count = 0;				// 计数值，初始化电机码盘用的			
+
+#if GIMBAL_TEST_MODE
+    int32_t pitch_real_jscope = 0;   //P轴打印实际曲线
+    int32_t pitch_set_jscope = 0;    //P轴打印设定曲线
+    int32_t yaw_real_jscope = 0;     //Y轴打印实际曲线
+    int32_t yaw_set_jscope = 0;      //Y轴打印设定曲线
+    int32_t sec_yaw_set_jscope = 0;  //副Y轴打印设定曲线
+    int32_t sec_yaw_real_jscope = 0; //副Y轴打印实际曲线
+    int32_t accel_up_jscope = 0;
+    int32_t accel_down_jscope = 0;
+		
+		int32_t Vision_pitch_jscope = 0;
+		int32_t Vision_yaw_jscope = 0;
+
+#endif
+
 /**************** 函数声明 *******************/ 
 
 static void Gimbal_init(gimbal_control_t *Gimbal_data_init_f);                  // 云台数据初始化
@@ -36,6 +52,10 @@ static void gimbal_controlwork(gimbal_control_t *gimbal_task_control);          
 static void Gimbal_remote_mode_choose(gimbal_control_t *fir_gimbal_choose);     // 云台状态选择
 static void gimbal_task_off(void);
 static void gimbal_pitch_init(void);
+
+#if GIMBAL_TEST_MODE
+static void Gimba_jscope_print_curve(void);																			// jscope 打印曲线
+#endif
 
 
 void GIMBAL_TASK(void const * argument)
@@ -211,10 +231,16 @@ static void Gimbal_init(gimbal_control_t *Gimbal_data_init_f)
         MiniPC_Send_Data(1,25,(uint8_t)20);
 
         //发送敌人出现状态给底盘板
-//        CAN2_Enemy_status(gimbal_task_control->VisionStatus);
+        CAN2_Enemy_status(gimbal_task_control->VisionStatus);
  
         //云台模式选择
         Gimbal_remote_mode_choose(gimbal_task_control);
+	 
+	  #if GIMBAL_TEST_MODE
+    /*打印曲线*/
+    Gimba_jscope_print_curve();
+    #endif
+				
 
  }
 
@@ -304,6 +330,12 @@ void Gimbal_Manual_Work(gimbal_control_t *gimbal_working, int16_t gimbal_ch2, in
                                            Gimbal_yaw_set_position,                              // 设定位置
                                            YAW_OUTPUT_LIMIT);                                    // 输出限制
 
+
+    #if GIMBAL_TEST_MODE
+    /*打印曲线*/
+//    Gimba_jscope_print_curve();
+		pitch_set_jscope = (gimbal_ch3)*5000.0f;            //P轴打印设定曲线
+    #endif
 
 }
 
@@ -398,3 +430,30 @@ static void gimbal_task_off(void)
  {
       return gimbal_control.gimbal_behaviour;
  }
+ 
+ 
+ 
+ #if GIMBAL_TEST_MODE
+/* jscope打印曲线 */
+static void Gimba_jscope_print_curve(void)
+{
+//    pitch_real_jscope = (gimbal_control.pitch_c.pitch_motor_measure->speed)*5; //P轴打印实际曲线
+//    pitch_set_jscope = gimbal_control.pitch_c.output;            //P轴打印设定曲线
+	
+		pitch_real_jscope =	(gimbal_control.pitch_c.pitch_motor_measure->pitch_angle)*5000.0f; 
+	
+    yaw_real_jscope = gimbal_control.yaw_c.yaw_motor_measure->speed; //Y轴打印实际曲线
+    yaw_set_jscope = gimbal_control.yaw_c.output;                    //Y轴打印设定曲线
+
+    sec_yaw_set_jscope = 0;  //副Y轴打印设定曲线
+    sec_yaw_real_jscope = 0; //副Y轴打印实际曲线
+
+    accel_up_jscope = gimbal_control.pitch_c.accel_up;
+    accel_down_jscope = gimbal_control.pitch_c.accel_down;
+	
+		Vision_pitch_jscope = gimbal_control.auto_c->auto_pitch_angle;
+		Vision_yaw_jscope   = gimbal_control.auto_c->auto_yaw_angle;
+
+}
+#endif
+

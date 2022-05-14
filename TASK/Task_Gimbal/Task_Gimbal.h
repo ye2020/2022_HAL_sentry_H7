@@ -86,13 +86,13 @@
 #elif (PITCH_PID_MODE == 2)
 
 
-    #define GIMBAL_P_PITCH_P  90.0f         //P位置环  70
-    #define GIMBAL_P_PITCH_I 	1.5f		// 1.1f
-    #define GIMBAL_P_PITCH_D  75.0f         //0.0f   75
+    #define GIMBAL_P_PITCH_P  52.0f//90.0f         //P位置环  70			40				(33)（80）
+    #define GIMBAL_P_PITCH_I 	0.0f//1.5f		// 1.1f
+    #define GIMBAL_P_PITCH_D  0.0f//75.0f         //0.0f   75
 
-    #define GIMBAL_S_PITCH_P  10.5f     //P速度环(不要加i) 1.5     9.5
+    #define GIMBAL_S_PITCH_P  40.5f//53.5f     //P速度环(不要加i) 1.5     9.5  60	(70)（40.5）
     #define GIMBAL_S_PITCH_I  0.0f
-    #define GIMBAL_S_PITCH_D  6.0f	    //6.0f    //3.5  4
+    #define GIMBAL_S_PITCH_D  6.0f	    //6.0f    //3.5 
 
 #endif
 

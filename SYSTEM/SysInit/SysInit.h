@@ -51,6 +51,9 @@
 #include "gpio.h"
 #include "bsp_usart2.h"
 #include "fifo_buff.h"
+#include "bsp_dwt.h"
+#include "myiic.h"
+#include "words.h"
 
 
 /* ************************ CONTROL ******************** */	
@@ -63,6 +66,8 @@
 #include "chassis_behaviour.h"
 #include "gimbal_behaviour.h"
 #include "automatic_strike.h"
+#include "OLED.h"
+
 /************************* ALGORITHM ******************** */	
 
 #include "pid.h"
@@ -94,10 +99,12 @@
 #define double_buffer 				0 	// 遥控使用双缓冲区			0 -> 不使用	 1 -> 使用
 #define SFUD_NORFLASH					0		// flash初始化及使能		0 -> 不使能  1 -> 使能
 #define MiniPC_DMA						1		// 小电脑用DMA通信			0 -> 不使用	 1 ->	使用
-#define Debug_mode						0		// 调试模式							0 -> 不开启	 1 -> 开启
+#define Debug_mode						1		// 调试模式							0 -> 不开启	 1 -> 开启
 #define Pitch_6020						1		// pitch 轴使用6020     0 -> 不使用	 1 ->	使用
+#define GIMBAL_TEST_MODE      1		// 云台测试模式(jscope)   0 -> 不使用	 1 ->	使用
+
 /*****各机器人的云台中值(如果用到编码器校准，目前2020赛季步兵P轴用到编码器初始化)******/
-#define Pitch_Middle_Angle  (-45)//170 //哨兵50   -8  -82     42  -32  74
+#define Pitch_Middle_Angle  (-45)//170 //哨兵-45  50   -8  -82     42  -32  74
 #define Pitch_UP_Angle      190  //	
 
 

@@ -304,7 +304,7 @@ static void Gimbal_RemoteControl(gimbal_control_t *gimbal_remotecontrol_f)
 {	
     Gimbal_ch2 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[2]) * RC_YAW_SPEED * 0.2f;     //Y轴位置环量累加   RC_YAW_SPEED
     Gimbal_ch2 = loop_fp32_constrain(Gimbal_ch2, -180.0f, 180.0f);                         //循环限幅，yaw角度限制     -180~180
-    Gimbal_ch3 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[3]) * RC_PITCH_SPEED * (-0.09f);  //P轴位置环量累加  RC_PITCH_SPEED
+    Gimbal_ch3 += (gimbal_remotecontrol_f->gimbal_RC->rc.ch[3]) * RC_PITCH_SPEED * (-0.09f);  //P轴位置环量累加  RC_PITCH_SPEED (-0.09)
 
     Gimbal_ch3 = float_limit(Gimbal_ch3, PITCH_ANGLE_LIMIT_UP, PITCH_ANGLE_LIMIT_DOWN);   //pitch角度限制   0 ~ -85  (哨兵上负下正)
 

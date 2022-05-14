@@ -50,6 +50,7 @@ void chassis_app_init(void)
   	/*  创建上云台任务 */
   osThreadDef(AboveGimbalTask, AboveGimbal_TASK, osPriorityRealtime, 0, 200);
   AboveGimbalTaskHandle = osThreadCreate(osThread(AboveGimbalTask), NULL);
+	
 
 }
 

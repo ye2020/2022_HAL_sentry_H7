@@ -32,16 +32,20 @@ static void Chassis_to_Gimbal(chassis_control_t *chassis_setmsg_f);											//
  chassis_control_t chassis_control;
 
 
+
 void Chassis_Task(void const * argument)
-	{
+{
 	    //空闲一段时间
     vTaskDelay(CHASSIS_TASK_INIT_TIME);	
 		
     /*底盘初始化*/
     chassis_init(&chassis_control);
+	
+
 
 		while(1)
 		{
+
 			/* 裁判系统数据解析 */
 			 referee_read_data();
 
@@ -71,12 +75,13 @@ void Chassis_Task(void const * argument)
       CAN1_Chassis_yaw_Setmsg(Get_Yaw_Gimbal_Motor_Output());
 
   #endif
+
 			//检测周期
 		vTaskDelay(CHASSIS_CONTROL_TIME);
 		
 		}                                                                                                                            
 		
-	}
+}
 	
 
 	

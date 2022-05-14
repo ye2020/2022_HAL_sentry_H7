@@ -32,6 +32,10 @@ static uint8_t app = 0;														// 初始化状态
 
 
 extern int sfud_demo(uint32_t addr, size_t size, uint8_t *data); // flash测试Demo
+extern void OLED_ChassisDisplay(void);
+extern void OLED_GimbalDisplay(void);
+void OLED_SentryDisplay(void);
+
 
 
 /************** 函数 ***************/
@@ -44,6 +48,9 @@ extern int sfud_demo(uint32_t addr, size_t size, uint8_t *data); // flash测试Dem
   */ 
 void System_init(void)
 {
+		/*  DWT延时初始化 */
+		DWT_init();
+	
 		/*  can滤波配置初始化 */
 		CAN1_filter_config();
 	
@@ -59,8 +66,18 @@ void System_init(void)
 		/* 遥控初始化 */
 		remote_control_init();
 	
+		/* OLED初始化 */
+		IIC_Init();
+		OLED_Write_Init();
+		OLED_Write_On();
+	
 		/* 底盘云台初始化选择 */
 		task_init();
+		
+		/*  OLED显示 */
+		OLED_SentryDisplay();
+
+		
 		/* SFUD初始化 */
 	#if SFUD_NORFLASH	
 		
@@ -109,6 +126,8 @@ static uint8_t task_init(void)
 	{
 		/*  底盘板初始化 */
 		chassis_app_init();
+		/* OLED显示 */
+		OLED_ChassisDisplay();
 		return 1;
 	}
 	
@@ -116,6 +135,8 @@ static uint8_t task_init(void)
 	{
 		/* 云台板初始化 */
 		gimbal_app_init();
+		/* OLED显示 */
+		OLED_GimbalDisplay();
 		return 1;
 	}
 
@@ -139,4 +160,68 @@ int RNG_Get_RandomRange(int min,int max)
 	HAL_RNG_GenerateRandomNumber(&hrng,&random);
 	
 	return random%(max-min+1) +min;
+}
+
+
+/**
+  * @brief      底盘 OLED 显示   
+  * @param[in]  none
+  * @retval     none
+  * @attention  
+  */
+void OLED_ChassisDisplay(void)
+{
+//		OLED_HorizontalDisplay();
+		OLED_DisplayString(0,0,16,16, (const uint8_t *)"Sentry Chassis");
+//		OledScrollStart();
+}
+
+
+/**
+  * @brief      云台 OLED 显示   
+  * @param[in]  none
+  * @retval     none
+  * @attention  
+  */
+void OLED_GimbalDisplay(void)
+{
+//		OLED_HorizontalDisplay();
+		OLED_DisplayString(0,0,16,16, (const uint8_t *)"Sentry Gimbal");
+//		OledScrollStart();
+}
+
+
+/**
+  * @brief      OLED 显示   
+  * @param[in]  none
+  * @retval     none
+  * @attention  
+  */
+void OLED_SentryDisplay(void)
+{
+		if (chassis_using)
+		OLED_DisplayString(0,2,16,16, (const uint8_t *)"底盘 √");
+		else
+		OLED_DisplayString(0,2,16,16, (const uint8_t *)"底盘 □");
+
+		if(yaw_angle_limit)
+		OLED_DisplayString(64,2,16,16,(const uint8_t *)"Yaw轴 √");
+		else
+		OLED_DisplayString(64,2,16,16,(const uint8_t *)"Yaw轴 □");
+		
+		if(Debug_mode)
+		OLED_DisplayString(0,4,16,16,(const uint8_t *)"调试 √");
+		else
+		OLED_DisplayString(0,4,16,16,(const uint8_t *)"调试 □");
+	
+		if(SFUD_NORFLASH)
+		OLED_DisplayString(64,4,16,16,(const uint8_t *)"flash √");
+		else
+		OLED_DisplayString(64,4,16,16,(const uint8_t *)"flash □");
+	
+		if(hot_limit)	
+		OLED_DisplayString(0,6,16,16,(const uint8_t *)"热量限制 √");
+		else
+		OLED_DisplayString(0,6,16,16,(const uint8_t *)"热量限制 □");
+
 }
